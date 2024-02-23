@@ -1,0 +1,15 @@
+.LoadingWrapper{
+  background-color: #EAB93C;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.SpinnerWrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 30px;
+}

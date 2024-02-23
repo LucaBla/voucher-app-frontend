@@ -1,0 +1,106 @@
+.ProfileIcon{
+  cursor: pointer;
+}
+
+.DrawerWrapper{
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  right: 0px;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  overflow: hidden;
+}
+
+.Drawer{
+  height: 100%;
+  width: 100%;
+  background-color: #EAB93C;
+  transform-origin: left;
+  overflow: hidden;
+}
+
+.DrawerBG{
+  background-color: rgba(0,0,0,0.25);
+  width: 100vw;
+}
+
+.DrawerHeader{
+  display: grid;
+  border-bottom: 2px solid rgba(0,0,0,0.25);
+  margin: 0px 10px;
+}
+
+.Drawer .LogoWrapper{
+  width: 50%;
+  justify-self: center;
+}
+
+.Drawer .InfoWrapper{
+  font-weight: bold;
+  font-size: 24px;
+  justify-self: center;
+  margin: 10px 0px;
+}
+
+.Drawer .LogoWrapper img{
+  height: 100%;
+  width: 100%;
+}
+
+.Drawer .DrawerContent{
+  display: flex;
+  flex-direction: column;
+}
+
+.Drawer .DrawerContent a{
+  background-color: #a7842b;
+  border-radius: 20px;
+  margin: 10px 20px;
+  border: none;
+  text-align: left;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 5%;
+  cursor: pointer;
+  transition: gap .25s ease-in-out;
+}
+
+.Drawer .DrawerContent a:hover{
+  gap: 6%
+}
+
+.HiddenDrawer{
+  width:  0%;
+  overflow: hidden;
+}
+
+.DrawerBGHidden{
+  display: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}

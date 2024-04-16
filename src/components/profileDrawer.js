@@ -10,7 +10,7 @@ function toggleDrawer(isDrawerOpen, setIsDrawerOpen){
   setIsDrawerOpen(!isDrawerOpen);
 }
 
-function ProfileDrawer() {
+function ProfileDrawer({name}) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const {setToken} = useAuth();
 
@@ -54,7 +54,7 @@ function ProfileDrawer() {
               <img src="/images/logo-placeholder-image.png"/>
             </div>
             <div className="InfoWrapper">
-              Unternehmen Test
+              {name}
             </div>
           </div>
           <div className="DrawerContent">

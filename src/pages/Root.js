@@ -1,10 +1,11 @@
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useLoaderData } from "react-router-dom";
 import { useAuth } from "../authContext";
 import Header from "../components/header";
+import Home from "./Home";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export async function validateToken() {
+export async function loader() {
   const bearerToken = localStorage.getItem('authToken');
 
   if (bearerToken === undefined || bearerToken === null) {
@@ -17,10 +18,10 @@ export async function validateToken() {
   };
 
   try {
-    await axios.get('http://127.0.0.1:3000/businesses/tokens/info', {
+    const response = await axios.get('http://127.0.0.1:3000/businesses/tokens/info', {
       headers: headers
     });
-    return null;
+    return response.data;
   } catch (error) {
     localStorage.removeItem('authToken');
     return redirect(`/login`);
@@ -31,45 +32,12 @@ export async function validateToken() {
 function Root() {
   const {authToken, isValid, setIsValid} = useAuth();
   const [isFirstLoad, setIsFirstLoad] = useState(true);
-
-  // useEffect(() => {
-  //   async function validateToken() {
-  //     const bearerToken = localStorage.getItem('authToken');
-
-  //     if(isFirstLoad){
-  //       await new Promise(resolve => setTimeout(resolve, 300));
-  //       setIsFirstLoad(false);
-  //     }
-  
-  //     if (bearerToken === undefined || bearerToken === null) {
-  //       setIsValid(false);
-  //       return redirect(`/login`);
-  //     }
-  
-  //     const headers = {
-  //       'Authorization': `Bearer ${bearerToken}`,
-  //       'Content-Type': 'application/json',
-  //     };
-  
-  //     try {
-  //       await axios.get('http://127.0.0.1:3000/businesses/tokens/info', {
-  //         headers: headers
-  //       });
-  //       setIsValid(true);
-  //     } catch (error) {
-  //       setIsValid(false);
-  //       return redirect(`/login`);
-  //     }
-  //     return redirect(`/login`);
-  //   }
-  
-  //   validateToken();
-  // }, [authToken]);
+  const data = useLoaderData();
 
   return (
     <div>
-    <Header/>
-      <h2>Home</h2>
+      <Header name={data.name}/>
+      <Home name={data.name}/>
     </div>
   );
 }

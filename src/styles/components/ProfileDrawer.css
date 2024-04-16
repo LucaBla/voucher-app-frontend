@@ -8,7 +8,7 @@
   width: 100%;
   top: 0px;
   right: 0px;
-  display: grid;
+  display: none;
   grid-template-columns: 70% 30%;
   overflow: hidden;
 }

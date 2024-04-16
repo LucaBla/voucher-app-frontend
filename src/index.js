@@ -7,22 +7,36 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './authContext';
 import Root from './pages/Root';
 import Login from './pages/Login';
-import { validateToken } from './pages/Root';
+import { loader as rootLoader } from './pages/Root';
 import { logOut } from './pages/Login';
-import { action } from './pages/Login';
-
+import { action as loginAction} from './pages/Login';
+import { loader as vouchersLoader } from './pages/Vouchers';
+import Vouchers from './pages/Vouchers';
+import Voucher from './pages/Voucher';
+import { loader as voucherLoader } from './pages/Voucher'
+ 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
-    loader: validateToken
+    loader: rootLoader
   },
   {
     path: "/login",
     element: <Login/>,
     loader: logOut,
-    action: action
+    action: loginAction
   },
+  {
+    path: "/vouchers",
+    element: <Vouchers/>,
+    loader: vouchersLoader,
+  },
+  {
+    path: "/vouchers/:voucherId",
+    element: <Voucher/>,
+    loader: voucherLoader,
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -1,0 +1,25 @@
+.HomeWrapper{
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr; 
+  margin: 0px 20px;
+}
+
+.FullWidthRow {
+  text-align: center;
+  grid-column: 1 / span 2; 
+  margin: 25px 0px;
+}
+
+.ThreeElementsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px; 
+}
+
+.OptionWrapper{
+  background-color: green;
+  width: 100%;
+  min-height: 70vh;
+  border-radius: 20px;
+}

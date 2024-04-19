@@ -1,5 +1,6 @@
 import { Link, redirect, useLoaderData } from "react-router-dom";
 import axios from "axios";
+import { backendUrl } from "../index";
 
 export async function loader() {
   const bearerToken = localStorage.getItem('authToken');
@@ -14,7 +15,7 @@ export async function loader() {
   };
 
   try {
-    const response = await axios.get('http://127.0.0.1:3000/vouchers', {
+    const response = await axios.get(`${backendUrl}/vouchers`, {
       headers: headers
     });
     console.log(response.data);
@@ -40,6 +41,9 @@ function Vouchers() {
         ))
         }
       </ul>
+      <Link to="/vouchers/create">
+        Create
+      </Link>
     </div>
   );
 }

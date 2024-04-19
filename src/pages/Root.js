@@ -4,6 +4,7 @@ import Header from "../components/header";
 import Home from "./Home";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { backendUrl } from "../index";
 
 export async function loader() {
   const bearerToken = localStorage.getItem('authToken');
@@ -18,7 +19,7 @@ export async function loader() {
   };
 
   try {
-    const response = await axios.get('http://127.0.0.1:3000/businesses/tokens/info', {
+    const response = await axios.get(`${backendUrl}/businesses/tokens/info`, {
       headers: headers
     });
     return response.data;

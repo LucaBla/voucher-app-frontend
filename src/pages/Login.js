@@ -3,9 +3,10 @@ import axios from 'axios';
 import { useAuth } from '../authContext';
 import '../styles/pages/Login.css'
 import { Form, redirect } from 'react-router-dom';
+import { backendUrl } from "../index";
 
 async function loginUser(email, password) {
-  return axios.post('http://127.0.0.1:3000/businesses/tokens/sign_in', {
+  return axios.post(`${backendUrl}/businesses/tokens/sign_in`, {
     email: email,
     password: password,
   })

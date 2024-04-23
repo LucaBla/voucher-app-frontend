@@ -18,6 +18,8 @@ import EditVoucher from './pages/EditVoucher';
 import {action as updateVoucherAction} from './pages/EditVoucher';
 import { action as createVoucherAction} from './pages/CreateVoucher';
 import CreateVoucher from './pages/CreateVoucher';
+import Home from './pages/Home';
+import ScanVoucher from './pages/ScanVoucher';
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -26,34 +28,41 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
-    loader: rootLoader
+    loader: rootLoader,
+    children: [
+      {index: true, element: <Home/>, loader: rootLoader,},
+      {
+        path: "/vouchers",
+        element: <Vouchers/>,
+        loader: vouchersLoader,
+      },
+      {
+        path: "/vouchers/create",
+        element: <CreateVoucher/>,
+        action: createVoucherAction,
+      },
+      {
+        path: "/vouchers/scan",
+        element: <ScanVoucher/>,
+      },
+      {
+        path: "/vouchers/:voucherId",
+        element: <Voucher/>,
+        loader: voucherLoader,
+      },
+      {
+        path: "/vouchers/:voucherId/edit",
+        element: <EditVoucher/>,
+        loader: voucherLoader,
+        action: updateVoucherAction,
+      },
+    ],
   },
   {
     path: "/login",
     element: <Login/>,
     loader: logOut,
     action: loginAction
-  },
-  {
-    path: "/vouchers",
-    element: <Vouchers/>,
-    loader: vouchersLoader,
-  },
-  {
-    path: "/vouchers/create",
-    element: <CreateVoucher/>,
-    action: createVoucherAction,
-  },
-  {
-    path: "/vouchers/:voucherId",
-    element: <Voucher/>,
-    loader: voucherLoader,
-  },
-  {
-    path: "/vouchers/:voucherId/edit",
-    element: <EditVoucher/>,
-    loader: voucherLoader,
-    action: updateVoucherAction,
   },
 ]);
 

@@ -1,10 +1,12 @@
-import { Link, redirect, useLoaderData } from "react-router-dom";
+import { Link, Outlet, redirect, useLoaderData, useNavigate } from "react-router-dom";
 import { useAuth } from "../authContext";
 import Header from "../components/header";
 import Home from "./Home";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { backendUrl } from "../index";
+import Footer from "../components/footer";
+import { ArrowLeft } from "react-feather";
 
 export async function loader() {
   const bearerToken = localStorage.getItem('authToken');
@@ -36,11 +38,14 @@ function Root() {
   const data = useLoaderData();
 
   return (
-    <div>
+    <div className="content">
       <Header name={data.name}/>
-      <Home name={data.name}/>
+      <Outlet/>
+      <Footer/>
     </div>
   );
 }
 
 export default Root;
+
+//<Home name={data.name}/>

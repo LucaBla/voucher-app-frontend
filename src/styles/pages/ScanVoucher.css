@@ -1,0 +1,9 @@
+.scan-voucher-page{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-wrapper{
+  width: 40%;
+}

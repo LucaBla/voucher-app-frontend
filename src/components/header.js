@@ -1,11 +1,12 @@
-import { User } from "react-feather";
+import { ArrowLeft, User } from "react-feather";
 import '../styles/components/header.css';
 import { useAuth } from "../authContext";
 import ProfileDrawer from "./profileDrawer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header({name}) {
-  const authToken = localStorage.getItem('authToken');;
+  const authToken = localStorage.getItem('authToken');
+  const navigate = useNavigate();
 
   return (
     <div className="HeaderWrapper">
@@ -17,6 +18,15 @@ function Header({name}) {
         :
         <></>
       }
+      <button
+        className="back-button"
+        type="button"
+        onClick={() => {
+          navigate(-1);
+        }}
+      >
+        <ArrowLeft size={"30px"}/>
+      </button>
     </div>
   );
 }

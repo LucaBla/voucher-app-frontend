@@ -2,9 +2,11 @@ import { Link, redirect, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import QRCode from "react-qr-code";
 import { backendUrl, frontendUrl } from "../index";
-import { Document, PDFDownloadLink, PDFViewer, Page, Text, View } from "@react-pdf/renderer";
+import ReactPDF, { Document, PDFDownloadLink, PDFViewer, Page, Text, View } from "@react-pdf/renderer";
 import VoucherPDF from "../components/voucherPDF";
 import { useEffect, useState } from "react";
+import "../styles/pages/Voucher.css"
+import { CheckCircle, Edit2, XCircle } from "react-feather";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -34,30 +36,62 @@ export async function loader({ params }) {
 function Voucher() {
   const voucher = useLoaderData();
 
+  const expiryDate = new Date(voucher.expiry_date).toLocaleDateString();
+
   return (
-    <div>
-      {voucher.id} - {voucher.value} - {voucher.status} - {voucher.expiry_date}
+    <div id="voucher-page">
+    <div id="voucher">
+      <div className="voucher-header">
       <Link to={`/vouchers/${voucher.id}/edit`}>
-        <button>
-          Edit
-        </button>
+        <Edit2 color="white"/>
       </Link>
-      <QRCode value={`${frontendUrl}/vouchers/${voucher.id}`} id="QRCode"/>
-      <button>
-        Create PDF
-      </button>
-      <div style={{height: '1200px'}}>
-        <PDFViewer width="100%" height="100%">
-          <VoucherPDF 
-            companyName="WIP" 
-            value={voucher.value} 
-            unit="WIP"
-            expiry_date={voucher.expiry_date}  
-            qrCodeString = {`${frontendUrl}/vouchers/${voucher.id}`}
+        <h2>{voucher.business.name}</h2>
+        <span>
+        {voucher.status === 'active' ?(
+          <CheckCircle color="white"/>
+        ):(
+          <XCircle color="red"/>
+        )
+        }
+        </span>
+      </div>
+
+      <div className="voucher-body">
+        <div className="voucher-value">
+          {voucher.value}
+        </div>
+        <div className="voucher-unit">
+          {voucher.unit.name}
+        </div>
+        <QRCode value={`${frontendUrl}/vouchers/${voucher.id}`} id="QRCode"/>
+      </div>
+      <div className="voucher-footer">
+        <span className="voucher-id">{voucher.id}</span>
+        <span>
+          {voucher.expiry_date !== null?(
+            expiryDate
+          ):(
+            <></>
+          )}
+        </span>
+      </div>
+    </div>
+      <div>
+        <PDFDownloadLink 
+          document={
+            <VoucherPDF 
+              companyName={voucher.business.name}
+              status={voucher.status}
+              id={voucher.id}
+              value={voucher.value} 
+              unit={voucher.unit.name}
+              expiry_date={expiryDate}  
+              qrCodeString = {`${frontendUrl}/vouchers/${voucher.id}`}
             />
-        </PDFViewer>
-        <PDFDownloadLink document={<VoucherPDF/>} fileName="voucher.pdf">
-          Download
+          } 
+          fileName="voucher.pdf"
+        >
+          Download PDF
         </PDFDownloadLink>
       </div>
     </div>

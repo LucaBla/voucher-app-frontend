@@ -18,8 +18,18 @@
 }
 
 .OptionWrapper{
-  background-color: green;
+  background-color: #EAB93C;
   width: 100%;
-  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20rem;
   border-radius: 20px;
+  color: white;
+  font-size: 28px;
+}
+
+.ThreeElementsRow a{
+  text-decoration: none;
 }

@@ -15,6 +15,7 @@ import Vouchers from './pages/Vouchers';
 import Voucher from './pages/Voucher';
 import { loader as voucherLoader } from './pages/Voucher'
 import EditVoucher from './pages/EditVoucher';
+import { loader as editVoucherLoader} from './pages/EditVoucher'
 import {action as updateVoucherAction} from './pages/EditVoucher';
 import { action as createVoucherAction} from './pages/CreateVoucher';
 import CreateVoucher from './pages/CreateVoucher';
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
       {
         path: "/vouchers/:voucherId/edit",
         element: <EditVoucher/>,
-        loader: voucherLoader,
+        loader: editVoucherLoader,
         action: updateVoucherAction,
       },
     ],

@@ -1,0 +1,54 @@
+.content Form{
+  display: flex;
+  flex-direction: column;
+  background-color: #EAB93C;
+  color: white;
+  border-radius: 15px;
+  padding: 10px 20px;
+  margin: 0px 50px;
+  min-width: 50%;
+  width: fit-content;
+  align-self: center;
+}
+
+.content Form label{
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  align-items: center;
+}
+
+Form .id-label{
+  font-weight: bold;
+}
+
+.content Form input{
+  border: 2px solid #b48f30;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size:16px;
+}
+
+.content Form select{
+  background-color: white;
+  border: 2px solid #b48f30;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size:16px;
+}
+
+.content Form button[type="submit"]{
+  background-color: #b48f30; 
+  color: white; 
+  font-weight: bold;
+  font-size: 18px;
+  border: none;
+  padding: 10px 20px; 
+  cursor: pointer; 
+  border-radius: 5px; 
+}
+
+.content Form button[type="submit"]:hover{
+  background-color: #9c7c2a;
+}

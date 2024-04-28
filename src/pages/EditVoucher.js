@@ -3,6 +3,8 @@ import axios from "axios";
 import VoucherForm from "../components/voucherForm";
 import { backendUrl } from "../index";
 import { useState } from "react";
+import "../styles/pages/EditVoucher.css"
+import Accordion from "../components/accordion";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -57,6 +59,10 @@ async function updateVoucher(request, params){
   let formData= Object.fromEntries(await request.formData());
   console.log(formData);
 
+  if(formData.sum){
+    formData.value = updateFormDataValueBasedOnSum(formData);
+  }
+
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
     'Content-Type': 'application/json',
@@ -78,6 +84,18 @@ async function updateVoucher(request, params){
   }
 }
 
+function updateFormDataValueBasedOnSum(formData){
+  let value = formData.value;
+
+  value = (formData.sum- formData.value) * -1;
+
+  if(value <= 0){
+    value = 0;
+  }
+
+  return value;
+}
+
 function EditVoucher() {
   const data = useLoaderData();
   const voucher = data[0];
@@ -91,38 +109,46 @@ function EditVoucher() {
   };
   
   return (
-    <>
+    <div className="edit-voucher-wrapper">
       <VoucherForm
         voucher={voucher} 
         currentDate={today} 
         units={data[1]}
       />
+      <Accordion title="Calculator">
       <Form 
-        merhod='put' 
-        action="updateValue"
+        method='put' 
         onSubmit={(event) => {
           if (
-            !confirm(
-              "Please confirm you want to delete this record."
+            !window.confirm(
+              "Please confirm that you want to update the value"
             )
           ) {
             event.preventDefault();
             }
         }}
       >
-        <h3>Calculator</h3>
-        <div>
-          <input name="sum" type="number" value={inputValue} onChange={handleChange}/>
-          -
-          {voucher.value} 
-          =
-          {difference}
-        </div>
-        <button type="submit">
-          update
-        </button>
-      </Form>
-    </>
+          <div className="calculation">
+            <div className="sum-input">
+              <input name="sum" type="number" value={inputValue} onChange={handleChange}/>
+            </div>
+            <div className="minus-sign">
+              -
+            </div>
+            <div className='value-readonly'>
+              <input name="value" readOnly type="number" defaultValue={voucher.value}/>
+            </div> 
+            <div className="difference">
+              <hr/>
+              {difference} {voucher.unit.name}
+            </div>
+          </div>
+          <button type="submit">
+            Update
+          </button>
+          </Form>
+        </Accordion>
+    </div>
   );
 }
 

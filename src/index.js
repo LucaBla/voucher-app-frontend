@@ -17,6 +17,7 @@ import { loader as voucherLoader } from './pages/Voucher'
 import EditVoucher from './pages/EditVoucher';
 import { loader as editVoucherLoader} from './pages/EditVoucher'
 import {action as updateVoucherAction} from './pages/EditVoucher';
+import { loader as createVoucherLoader} from './pages/CreateVoucher'
 import { action as createVoucherAction} from './pages/CreateVoucher';
 import CreateVoucher from './pages/CreateVoucher';
 import Home from './pages/Home';
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
       {
         path: "/vouchers/create",
         element: <CreateVoucher/>,
+        loader: createVoucherLoader,
         action: createVoucherAction,
       },
       {

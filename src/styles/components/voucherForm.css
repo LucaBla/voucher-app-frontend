@@ -47,8 +47,43 @@ Form .id-label{
   padding: 10px 20px; 
   cursor: pointer; 
   border-radius: 5px; 
+  margin-top: 10px;
 }
 
 .content Form button[type="submit"]:hover{
   background-color: #9c7c2a;
+}
+
+fieldset{
+  border: 0px solid black;
+  margin: 0px;
+  padding: 0px;
+  font-size: 20px;
+}
+
+fieldset span{
+  margin: 100px 0px;
+}
+
+.status-input{
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-button-wrapper{
+  display: inline-flex;
+  margin-left: 20px;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  align-self: center;
+  margin-bottom: 10px;
+}
+
+.radio-button-wrapper label{
+  cursor: pointer;
 }

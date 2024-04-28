@@ -1,24 +1,78 @@
 import { Form } from "react-router-dom";
 import "../styles/components/voucherForm.css"
+import { CheckCircle, XCircle } from "react-feather";
+import { useState } from "react";
 
 export default function VoucherForm({voucher, currentDate, units}){
+  const [voucherStatus, setVoucherStatus] = useState(voucher.status);
+
+  const handleRadioClick = (event) => {
+    const selectedValue = event.target.value;
+    setVoucherStatus(selectedValue);
+    console.log(selectedValue);
+  };
+
+  const getStatusIconColor = (icon) =>{
+    if(voucherStatus === 'active' && icon === 'check'){
+      return 'green';
+    }
+    if(voucherStatus === 'inactive' && icon === 'circle'){
+      return 'red';
+    }
+    else{
+      return 'white';
+    }
+  }
+
   return(
     <Form method="post">
-      <label className="id-label">
-        <span>ID</span>
-        <div name="id">{voucher.id}</div>
-      </label>
+      {voucher.id? (
+        <>
+        {voucherStatus === 'inactive'&&
+          <div className="inactive-message">
+            Attention: This Voucher is inactive!
+          </div>
+        }
+        <label className="id-label">
+          <span>ID</span>
+          <div name="id">{voucher.id}</div>
+        </label>
+        </>
+      ):(
+        <h2>Create New Voucher</h2>
+      )
+      }
       <label>
         <span>Value</span>
         <input name="value" type="text" defaultValue={voucher.value}/>
       </label>
-      <label>
+      <fieldset>
         <span>Status</span>
-        <select name="status" defaultValue={voucher.status}>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-        </select>
-      </label>
+        <div className="radio-button-wrapper">
+          <label>
+            <input 
+              type="radio" 
+              name="status" 
+              value="active" 
+              checked={voucherStatus === 'active'} 
+              className="status-input" 
+              onChange={handleRadioClick}
+            />
+            <CheckCircle color={getStatusIconColor('check')}/>
+          </label>
+          <label>
+            <input 
+              type="radio" 
+              name="status" 
+              value="inactive" 
+              checked={voucherStatus === 'inactive'} 
+              className="status-input" 
+              onChange={handleRadioClick}
+            />
+            <XCircle color={getStatusIconColor('circle')}/>
+          </label>
+        </div>
+      </fieldset>
       <label>
         <span>Unit</span>
         <select name="unit_id" defaultValue={voucher.unit.id}>

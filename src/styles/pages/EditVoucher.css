@@ -1,0 +1,105 @@
+.calculation input{
+  font-size: 20px !important;
+  padding-left: 10px !important;
+}
+
+input[readonly] {
+  background-color: transparent;
+  border: 0px solid black !important;
+  color: white;
+  outline: 0px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  font-size: 20px !important;
+  margin-top: 0px;
+}
+
+hr{
+  color: white;
+  border: 1px solid white !important;
+  margin-top: 0px;
+}
+
+.difference{
+  font-size: 20px;
+  font-weight: bold;
+  grid-area: difference;
+}
+
+.value-to-substract{
+  font-size: 20px;
+}
+
+.calculation{
+  display: grid;
+  grid-template-areas:
+    "sign1 number1"
+    "sign2 number2"
+    "difference difference"; 
+  gap: 5px 2px;
+  width: fit-content;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.sum-input{
+  grid-area: number1;
+}
+
+.minus-sign{
+  grid-area: sign2;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.value-readonly{
+  grid-area: number2;
+}
+
+.edit-voucher-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.accordion{
+  align-self: center;
+  min-width: 50%;
+  width: fit-content;
+  display: flex;
+  flex-direction: column;
+  background-color: #EAB93C;
+  border-radius: 15px;
+  padding: 10px 20px;
+}
+
+.accordion-header{
+  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  cursor: pointer;
+}
+
+.accordion-content{
+  align-self: center;
+  background-color: #EAB93C;
+  border-radius: 15px;
+  width: 100%;
+  display: flex;
+}
+
+.accordion-content form{
+  width: 100%;
+  margin: 0px;
+}
+
+.inactive-message{
+  background-color: red;
+  box-sizing: border-box;
+  padding: 10px 10px;
+  border-radius: 15px 15px 0px 0px;
+  margin: -10px -20px 10px -20px;
+  font-weight: bold;
+}

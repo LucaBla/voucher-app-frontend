@@ -96,10 +96,29 @@ hr{
 }
 
 .inactive-message{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: red;
   box-sizing: border-box;
   padding: 10px 10px;
   border-radius: 15px 15px 0px 0px;
   margin: -10px -20px 10px -20px;
   font-weight: bold;
+  font-size: 18px;
+}
+
+.delete-voucher-btn{
+  background-color: white;
+  border: 2px solid #b48f30;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-voucher-btn:hover{
+  background-color: red;
+}
+
+.delete-voucher-btn:hover svg{
+  stroke: white;
 }

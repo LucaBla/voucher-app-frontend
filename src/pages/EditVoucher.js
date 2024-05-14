@@ -5,6 +5,7 @@ import { backendUrl } from "../index";
 import { useState } from "react";
 import "../styles/pages/EditVoucher.css"
 import Accordion from "../components/accordion";
+import { Trash } from "react-feather";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -148,6 +149,23 @@ function EditVoucher() {
           </button>
           </Form>
         </Accordion>
+        <Form 
+            method="post" 
+            action="destroy"
+            onSubmit={(event) =>{
+              if(
+                !window.confirm(
+                  "Are you sure you want to delete this Voucher?"
+                )
+              ){
+                event.preventDefault();
+              }
+            }}
+          >
+            <button className="delete-voucher-btn">
+              <Trash color="red"/>
+            </button>
+          </Form>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Form } from "react-router-dom";
 import "../styles/components/voucherForm.css"
-import { CheckCircle, XCircle } from "react-feather";
+import { CheckCircle, Info, Trash, XCircle } from "react-feather";
 import { useState } from "react";
 
 export default function VoucherForm({voucher, currentDate, units}){
@@ -31,12 +31,15 @@ export default function VoucherForm({voucher, currentDate, units}){
         {voucherStatus === 'inactive'&&
           <div className="inactive-message">
             Attention: This Voucher is inactive!
+            <Info size={36}/>
           </div>
         }
-        <label className="id-label">
-          <span>ID</span>
-          <div name="id">{voucher.id}</div>
-        </label>
+        <div className="edit-voucher-header">
+          <label className="id-label">
+            <span>ID</span>
+            <div name="id">{voucher.id}</div>
+          </label>
+        </div>
         </>
       ):(
         <h2>Create New Voucher</h2>

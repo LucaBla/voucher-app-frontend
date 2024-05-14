@@ -28,6 +28,7 @@ Form .id-label{
   border-radius: 5px;
   padding: 5px 10px;
   font-size:16px;
+  cursor: pointer;
 }
 
 .content Form select{
@@ -36,6 +37,7 @@ Form .id-label{
   border-radius: 5px;
   padding: 5px 10px;
   font-size:16px;
+  cursor: pointer;
 }
 
 .content Form button[type="submit"]{
@@ -86,4 +88,9 @@ fieldset span{
 
 .radio-button-wrapper label{
   cursor: pointer;
+}
+
+.edit-voucher-header{
+  display: flex;
+  justify-content: space-between;
 }

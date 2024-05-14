@@ -22,6 +22,8 @@ import { action as createVoucherAction} from './pages/CreateVoucher';
 import CreateVoucher from './pages/CreateVoucher';
 import Home from './pages/Home';
 import ScanVoucher from './pages/ScanVoucher';
+import {action as destroyVoucherAction} from './pages/Destroy';
+import Error from './pages/Error';
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <Root/>,
     loader: rootLoader,
+    errorElement: <Error/>,
     children: [
       {index: true, element: <Home/>, loader: rootLoader,},
       {
@@ -58,6 +61,10 @@ const router = createBrowserRouter([
         element: <EditVoucher/>,
         loader: editVoucherLoader,
         action: updateVoucherAction,
+      },
+      {
+        path: "/vouchers/:voucherId/edit/destroy",
+        action: destroyVoucherAction,
       },
     ],
   },

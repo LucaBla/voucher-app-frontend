@@ -1,4 +1,4 @@
-.content Form{
+.content .edit-voucher-wrapper Form{
   display: flex;
   flex-direction: column;
   background-color: #EAB93C;

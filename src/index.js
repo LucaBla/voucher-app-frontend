@@ -24,6 +24,8 @@ import Home from './pages/Home';
 import ScanVoucher from './pages/ScanVoucher';
 import {action as destroyVoucherAction} from './pages/Destroy';
 import Error from './pages/Error';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -80,7 +82,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RouterProvider router={router}/>
+      </LocalizationProvider>
     </AuthProvider>
   </React.StrictMode>
 );

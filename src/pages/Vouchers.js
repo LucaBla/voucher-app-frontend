@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Form, Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../index";
-import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Accordion, AccordionSummary, AccordionDetails, DateRangePicker, Select, OutlinedInput, Box, Chip, MenuItem } from "@mui/material";
+import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Accordion, AccordionSummary, AccordionDetails, DateRangePicker, Select, OutlinedInput, Box, Chip, MenuItem, Checkbox } from "@mui/material";
 import { Cancel, CheckCircle, KeyboardArrowDown } from "@mui/icons-material";
 import { DataGrid } from '@mui/x-data-grid';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -31,6 +31,7 @@ export async function loader({request}) {
   let createdUntil = url.searchParams.get('created_until');
   let expiresAfter = url.searchParams.get('expires_after');
   let expiresUntil = url.searchParams.get('expires_until');
+  let hasExpiryDate = url.searchParams.get('has_expiry_date');
 
   if(unitID[0] === ''){
     unitID = [];
@@ -39,24 +40,11 @@ export async function loader({request}) {
     unitID = unitID[0].split(',').map(Number);
   }
 
-  if(createdAfter){
-    createdAfter = new Date(createdAfter);
-  }
+  createdAfter = stringToDate(createdAfter);
+  createdUntil = stringToDate(createdUntil, true);
 
-  if(createdUntil){
-    createdUntil = new Date(createdUntil);
-    createdUntil.setHours(23, 59, 59, 999);
-  }
-
-  if(expiresAfter){
-    expiresAfter = new Date(expiresAfter);
-    console.log(expiresAfter)
-  }
-
-  if(expiresUntil){
-    expiresUntil = new Date(expiresUntil);
-    expiresUntil.setHours(23, 59, 59, 999);
-  }
+  expiresAfter = stringToDate(expiresAfter);
+  expiresUntil = stringToDate(expiresUntil, true);
 
   let vouchers;
   let units;
@@ -74,6 +62,7 @@ export async function loader({request}) {
         created_until: createdUntil,
         expires_after: expiresAfter,
         expires_until: expiresUntil,
+        has_expiry_date: hasExpiryDate
       }
     });
 
@@ -94,23 +83,41 @@ export async function loader({request}) {
 
   return {
     vouchers, status, units, unitID, minValue, maxValue, 
-    createdAfter, createdUntil, expiresAfter, expiresUntil
+    createdAfter, createdUntil, expiresAfter, expiresUntil,
+    hasExpiryDate
   };
+}
+
+function stringToDate(dateString, setToMaxHours = false){
+  let date;
+
+  if(dateString){
+    date = new Date(dateString);
+    if(isNaN(date)){
+      date = null;
+    }
+  }
+
+  if(setToMaxHours && date !== null && !isNaN(date)){
+    date.setHours(23, 59, 59, 999);
+  }
+
+  return date;
 }
 
 function Vouchers() {
   const {
     vouchers, status, units, unitID, minValue, maxValue, 
-    createdAfter, createdUntil, expiresAfter, expiresUntil
+    createdAfter, createdUntil, expiresAfter, expiresUntil, 
+    hasExpiryDate
   } = useLoaderData();
   const [hasMounted, setHasMounted] = useState(false);
   const [voucherStatus, setVoucherStatus] = useState([...status]);
   const [selectedUnits, setSelectedUnits] = useState([...unitID]);
+  const [hasExpiryDateForm, setHasExpiryDateForm] = useState(hasExpiryDate);
   const formRef = useRef(null);
   const submit = useSubmit();
   const today = new Date();
-
-  console.log(createdAfter);
 
   useEffect(() =>{
     if(!hasMounted){
@@ -214,10 +221,41 @@ function Vouchers() {
 
   const handleDateChange = (value) => {
     if (formRef.current) {
-      submit(formRef.current);
+      setTimeout(() =>{
+
+        submit(formRef.current);
+      }, 100)
     } else {
       console.error('Formular-Ref nicht gefunden!');
     }
+  }
+
+  const handleExpiryCheckboxChange = (event) => {
+    console.log('TEST');
+    console.log(event.target.value);
+    console.log(hasExpiryDateForm);
+    if(hasExpiryDateForm === event.target.value){
+      setHasExpiryDateForm(null);
+    }
+    else{
+      setHasExpiryDateForm(event.target.value);
+    }
+    if (formRef.current) {
+      setTimeout(() =>{
+
+        submit(formRef.current);
+      }, 100)
+    } else {
+      console.error('Formular-Ref nicht gefunden!');
+    }
+  }
+
+  const getExpiryCheckboxChecked = (value) =>{
+    console.log(value);
+    if(hasExpiryDateForm === value){
+      return true
+    }
+      return false;
   }
 
   return(
@@ -338,8 +376,22 @@ function Vouchers() {
             />
           </fieldset>
           <label>
-            <span>No Expiry Date Vouchers</span>
-            <input type="checkbox" defaultChecked/>
+            <span>Hide No Expiry Date Vouchers</span>
+            <Checkbox
+              name="has_expiry_date"
+              checked={getExpiryCheckboxChecked("true")}
+              onChange={handleExpiryCheckboxChange}
+              value="true"
+            />
+          </label>
+          <label>
+            <span>Hide Expiry Date Vouchers</span>
+            <Checkbox
+              name="has_expiry_date"
+              checked={getExpiryCheckboxChecked("false")}
+              onChange={handleExpiryCheckboxChange}
+              value="false"
+            />
           </label>
         </Form>
       </AccordionDetails>

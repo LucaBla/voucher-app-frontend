@@ -26,6 +26,9 @@ import {action as destroyVoucherAction} from './pages/Destroy';
 import Error from './pages/Error';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import Settings from './pages/Settings';
+import { loader as businessLoader} from './pages/Settings'
+import { action as updateBusinessAction} from './pages/Settings'
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -38,6 +41,12 @@ const router = createBrowserRouter([
     errorElement: <Error/>,
     children: [
       {index: true, element: <Home/>, loader: rootLoader,},
+      {
+        path: "/settings",
+        element: <Settings/>,
+        loader: businessLoader,
+        action: updateBusinessAction,
+      },
       {
         path: "/vouchers",
         element: <Vouchers/>,

@@ -76,15 +76,6 @@ function Header({name}) {
         :
         <></>
       }
-      <button
-        className="back-button"
-        type="button"
-        onClick={() => {
-          navigate(-1);
-        }}
-      >
-        <ArrowLeft size={"30px"}/>
-      </button>
     </div>
   );
 }

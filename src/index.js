@@ -23,6 +23,8 @@ import CreateVoucher from './pages/CreateVoucher';
 import Home from './pages/Home';
 import ScanVoucher from './pages/ScanVoucher';
 import {action as destroyVoucherAction} from './pages/Destroy';
+import {action as destroyUnitAction} from './pages/DestroyUnit';
+import {action as createUnitAction} from './pages/CreateUnit';
 import Error from './pages/Error';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -46,6 +48,14 @@ const router = createBrowserRouter([
         element: <Settings/>,
         loader: businessLoader,
         action: updateBusinessAction,
+      },
+      {
+        path: "/settings/units/create",
+        action: createUnitAction,
+      },
+      {
+        path: "/settings/units/:unitId/destroy",
+        action: destroyUnitAction,
       },
       {
         path: "/vouchers",

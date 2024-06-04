@@ -1,8 +1,11 @@
-import { Box, Button, Container, Input } from "@mui/material";
+import { Alert, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Input, List, ListItem, ListItemText, Snackbar, TextField } from "@mui/material";
 import { Form } from "react-router-dom";
 import { backendUrl, frontendUrl } from "../index";
-import { Link, redirect, useLoaderData } from "react-router-dom";
+import { Link, redirect, useLoaderData, useNavigation } from "react-router-dom";
 import axios from "axios";
+import { LoadingButton } from "@mui/lab";
+import { AddOutlined, Delete, DeleteOutline, SaveOutlined } from "@mui/icons-material";
+import { useState } from "react";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -31,6 +34,7 @@ export async function loader({ params }) {
 
 export async function action({ request, params }){
   const business = await updateBusiness(request, params);
+
   return redirect(`/settings`);
 }
 
@@ -61,11 +65,103 @@ async function updateBusiness(request, params){
   }
 }
 
+function matchesPattern(url) {
+  const pattern = /^\/settings\/units\/\d+\/destroy$/;
+  return pattern.test(url);
+}
+
 function Settings() {
   const business = useLoaderData();
+  const navigation = useNavigation();
+  const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [snackbarContent, setSnackbarContent] = useState('');
+
+  const handleSnackbarOpen= ()=>{
+    setIsSnackBarOpen(true);
+  }
+
+  const handleSnackbarClose = ()=>{
+    setIsSnackBarOpen(false);
+  }
+
+  const handleModalOpen= ()=>{
+    setIsModalOpen(true);
+  }
+
+  const handleModalClose = ()=>{
+    setIsModalOpen(false);
+  }
+
+  const getSnackbarContent = ()=>{
+    if(navigation.formAction === '/settings'){
+      setSnackbarContent('Profile Updated Successfully.');
+    }
+    else if(navigation.formAction === '/settings/units/create'){
+      setSnackbarContent('New Unit Created Successfully.');
+    }
+    else if(matchesPattern(navigation.formAction)){
+      setSnackbarContent('Unit Deleted.');
+    }
+    else{
+      setSnackbarContent('No Content.');
+    }
+  }
+
+  console.log(navigation.state);
+
+  if(
+    navigation.state === "loading" && 
+    navigation.formData != null && 
+    //navigation.formAction === navigation.location.pathname &&
+    !isSnackBarOpen
+  ){
+    handleSnackbarOpen();
+    getSnackbarContent();
+    console.log(navigation.formAction);
+  }
 
   return (
     <Container>
+      <Snackbar
+        open={isSnackBarOpen}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        autoHideDuration={1000}
+        onClose={handleSnackbarClose}
+        sx={{ top: { xs: 0, sm: 100 } }}
+      >
+        <Alert severity="success" variant="filled">
+          {snackbarContent}
+        </Alert>  
+      </Snackbar>
+      <Dialog
+        open={isModalOpen}
+        onClose={handleModalClose}
+        component={Form}
+        method="post"
+        action={`/settings/units/create`}
+        //onSubmit={handleModalClose}
+      >
+        <DialogTitle>Add Unit</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter a Name for the unit.
+          </DialogContentText>
+          <TextField 
+            required 
+            name="unit_name" 
+            label="Unit Name" 
+            variant="standard" 
+            fullWidth  
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleModalClose}>
+            Close
+          </Button>
+          <Button type="submit">Add</Button>
+        </DialogActions>
+      </Dialog>
       <h2>Settings</h2>
       <Form method='put'>
         <label>
@@ -107,8 +203,54 @@ function Settings() {
             <Input name="country" defaultValue={business.country}></Input>
           </label>
         </Box>
-        <Button type="submit">Submit</Button>
+        <LoadingButton 
+          type="submit" 
+          loading={navigation.state === "submitting" || navigation.state === "loading"} 
+          loadingPosition="end" 
+          endIcon={<SaveOutlined/>} 
+          variant="contained"
+        >
+          <span>Submit</span>
+        </LoadingButton>
       </Form>
+        <Box>
+          <span>Units</span>
+          <List sx={{ bgcolor: 'green' }}>
+            {business.units.map((unit) =>
+              <ListItem 
+                key={unit.id}
+                secondaryAction={
+                  <Form
+                    method="post"
+                    action={`/settings/units/${unit.id}/destroy`}
+                    onSubmit={(event) =>{
+                      if(
+                        !window.confirm(
+                          "Are you sure you want to delete this Unit? This will delete all related Vouchers!"
+                        )
+                      ){
+                        event.preventDefault();
+                      }
+                    }}
+                  >
+                    <IconButton edge="end" type="submit">
+                      <DeleteOutline/>
+                    </IconButton>
+                  </Form>
+                }
+              >
+                <ListItemText primary={unit.name}/>
+              </ListItem>
+            )}
+          </List>
+          <Button 
+            endIcon={<AddOutlined/>} 
+            variant="contained" 
+            onClick={handleModalOpen}
+          >
+            <span>Add Unit</span>
+          </Button>
+        </Box>
     </Container>
   ); 
 }

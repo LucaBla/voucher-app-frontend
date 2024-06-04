@@ -3,7 +3,7 @@ import '../styles/components/header.css';
 import { useAuth } from "../authContext";
 import ProfileDrawer from "./profileDrawer";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import { Box, Button, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Box, Button, Divider, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { AddOutlined, Inventory2Outlined, Logout, LogoutOutlined, PersonOutline, QrCodeScannerOutlined, SettingsOutlined } from "@mui/icons-material";
 import { useState } from "react";
 
@@ -15,7 +15,17 @@ function Header({name}) {
   return (
     <div className="HeaderWrapper">
       <Link to={`/`} className="HeaderTitle">
-        <h1>ScanVoucher</h1>
+        <Typography 
+          variant="h1"
+          sx={{
+            fontSize:'40px', 
+            fontWeight:'bold', 
+            margin: '10px 0px',
+            color: '#c8c8c8'
+            }}
+        >
+          ScanVoucher
+        </Typography>
       </Link>
       {authToken?
         <>

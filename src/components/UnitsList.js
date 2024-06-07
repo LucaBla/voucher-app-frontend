@@ -1,7 +1,6 @@
 import { User } from "react-feather";
 import '../styles/components/footer.css';
 import { useAuth } from "../authContext";
-import ProfileDrawer from "./profileDrawer";
 import { Form, Link } from "react-router-dom";
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItem, ListItemText, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { AddOutlined, DeleteOutline } from "@mui/icons-material";
@@ -27,6 +26,7 @@ function UnitsList({
           endIcon={<AddOutlined/>} 
           variant="contained" 
           onClick={handleModalOpen}
+          sx={{backgroundColor:"black"}}
         >
           <span>Add Unit</span>
         </Button>

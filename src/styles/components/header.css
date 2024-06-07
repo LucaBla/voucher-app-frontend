@@ -1,5 +1,5 @@
 .HeaderWrapper{
-  background-color: #f7f7f7;
+  background-color: #393D3F;
   color: black;
   display: flex;
   justify-content: space-between;
@@ -17,9 +17,9 @@
 }
 
 a.active{
-  background-color: #c8c8c8;
+  background-color: black;
 }
 
 a.active:hover{
-  background-color: #b1b1b1;
+  background-color: rgb(34, 34, 34);
 }

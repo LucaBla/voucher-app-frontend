@@ -3,24 +3,12 @@ label{
 }
 
 
-.content Form select{
-  background-color: white;
-  border: 2px solid #b48f30;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size:16px;
-  cursor: pointer;
-}
 
 fieldset{
   border: 0px solid black;
   margin: 0px;
   padding: 0px;
   font-size: 20px;
-}
-
-fieldset span{
-  margin: 100px 0px;
 }
 
 .status-input{

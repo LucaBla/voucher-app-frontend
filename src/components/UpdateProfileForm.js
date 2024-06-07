@@ -1,7 +1,6 @@
 import { User } from "react-feather";
 import '../styles/components/footer.css';
 import { useAuth } from "../authContext";
-import ProfileDrawer from "./profileDrawer";
 import { Form, Link } from "react-router-dom";
 import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Input, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -22,7 +21,7 @@ function UpdateProfileForm({
     >
       <Typography 
         variant="h2" 
-        sx={{fontSize: '40px', fontWeight: 'bold'}}
+        sx={{fontSize: '30px', fontWeight: 'bold'}}
       >
         Settings
       </Typography>
@@ -97,6 +96,7 @@ function UpdateProfileForm({
         endIcon={<LoopOutlined/>} 
         variant="contained"
         size="large"
+        sx={{backgroundColor:"black"}}
       >
         <span>Update</span>
       </LoadingButton>

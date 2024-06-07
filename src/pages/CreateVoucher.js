@@ -39,7 +39,7 @@ async function createVoucher(request){
 
   let formData= Object.fromEntries(await request.formData());
   console.log(formData);
-  formData.unit_id = 1
+  //formData.unit_id = 1
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,

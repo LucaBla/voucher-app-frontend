@@ -1,7 +1,6 @@
 import { User } from "react-feather";
 import '../styles/components/footer.css';
 import { useAuth } from "../authContext";
-import ProfileDrawer from "./profileDrawer";
 import { Form, Link } from "react-router-dom";
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField } from "@mui/material";
 import { AddOutlined, SaveOutlined } from "@mui/icons-material";
@@ -32,13 +31,17 @@ function CreateUnitDialog({
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleModalClose}>
+          <Button 
+            onClick={handleModalClose}
+            sx={{color:"black"}}
+          >
             Close
           </Button>
           <Button 
             type="submit" 
             endIcon={<AddOutlined/>} 
             variant="contained" 
+            sx={{backgroundColor:"black"}}
           >
             Add
           </Button>

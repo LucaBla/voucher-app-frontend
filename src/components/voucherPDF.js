@@ -90,3 +90,5 @@ export default function VoucherPDF({id, companyName, status, value, unit, expiry
     </Document>
   );
 }
+
+//voucher übergeben

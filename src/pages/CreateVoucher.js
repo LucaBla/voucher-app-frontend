@@ -38,8 +38,11 @@ async function createVoucher(request){
   const bearerToken = localStorage.getItem('authToken');
 
   let formData= Object.fromEntries(await request.formData());
+
+  if(!formData.status){
+    formData.status = 'inactive';
+  }
   console.log(formData);
-  //formData.unit_id = 1
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,

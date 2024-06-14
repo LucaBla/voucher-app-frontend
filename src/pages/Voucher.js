@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import "../styles/pages/Voucher.css"
 import { CheckCircle, Edit2, XCircle } from "react-feather";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { CalendarMonthOutlined, CheckOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PlaceOutlined, PlaceSharp, StoreOutlined, TagFacesOutlined } from "@mui/icons-material";
+import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PlaceOutlined, PlaceSharp, StoreOutlined, TagFacesOutlined } from "@mui/icons-material";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -96,15 +96,28 @@ function Voucher() {
               alignItems="center"
               gap="20px"
             >
-              <CheckOutlined 
-                sx={{
-                  backgroundColor:"#8f969a",
-                  padding: "8px 8px" ,
-                  borderRadius: "4px" ,
-                  color: "white",
-                  fontSize: "30px"
-                }}  
-              />
+              {voucher.status === "active"?(
+                <CheckOutlined 
+                  sx={{
+                    backgroundColor:"green",
+                    padding: "8px 8px" ,
+                    borderRadius: "4px" ,
+                    color: "white",
+                    fontSize: "30px"
+                  }}  
+                />
+              ):(
+                <CloseOutlined
+                  sx={{
+                    backgroundColor:"red",
+                    padding: "8px 8px" ,
+                    borderRadius: "4px" ,
+                    color: "white",
+                    fontSize: "30px"
+                  }}  
+                />
+              )
+              }
               <Box>
                 Status: {voucher.status}
               </Box>

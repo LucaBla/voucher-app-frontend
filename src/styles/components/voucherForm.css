@@ -11,6 +11,15 @@ fieldset{
   font-size: 20px;
 }
 
+.id-label{
+  display: flex;
+  gap: 5px;
+}
+
+.id-label .id{
+  font-weight: normal !important;
+}
+
 .status-input{
   position: absolute;
   opacity: 0;
@@ -37,4 +46,52 @@ fieldset{
 .edit-voucher-header{
   display: flex;
   justify-content: space-between;
+}
+
+.MuiSwitch-switchBase{
+  transform: translate(-5px, -3px) !important;
+}
+
+.MuiSwitch-thumb{
+  background-color: red !important;
+  width: 26px !important;
+  height: 26px !important;
+}
+
+.Mui-checked{
+  transform: translate(20px, -3px) !important;
+}
+
+.Mui-checked .MuiSwitch-thumb{
+  background-color: green !important;
+}
+
+.MuiSwitch-thumb::before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>');  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.Mui-checked .MuiSwitch-thumb::before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.MuiSwitch-track{
+  background-color: grey !important;
+}
+.id-label{
+  font-weight: bold ;
 }

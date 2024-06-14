@@ -3,16 +3,6 @@
   padding-left: 10px !important;
 }
 
-input[readonly] {
-  background-color: transparent;
-  border: 0px solid black !important;
-  color: white;
-  outline: 0px;
-  padding-top: 0px !important;
-  padding-bottom: 0px !important;
-  font-size: 20px !important;
-  margin-top: 0px;
-}
 
 hr{
   color: white;

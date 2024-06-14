@@ -6,6 +6,7 @@ import { useState } from "react";
 import "../styles/pages/EditVoucher.css"
 import Accordion from "../components/accordion";
 import { Trash } from "react-feather";
+import { Alert, Box, Button, Container, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -64,6 +65,10 @@ async function updateVoucher(request, params){
     formData.value = updateFormDataValueBasedOnSum(formData);
   }
 
+  if(!formData.status && !formData.sum){
+    formData.status = 'inactive';
+  }
+
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
     'Content-Type': 'application/json',
@@ -88,7 +93,7 @@ async function updateVoucher(request, params){
 function updateFormDataValueBasedOnSum(formData){
   let value = formData.value;
 
-  value = (formData.sum- formData.value) * -1;
+  value = (formData.value- formData.sum);
 
   if(value <= 0){
     value = 0;
@@ -101,7 +106,7 @@ function EditVoucher() {
   const data = useLoaderData();
   const voucher = data[0];
   const today = new Date().toISOString().substring(0,10);
-  const [difference, setDifference] = useState(data[0].value);
+  const [difference, setDifference] = useState(data[0].value * -1);
   const [inputValue, setInputValue] = useState(0);
 
   const handleChange = (event) => {
@@ -110,63 +115,115 @@ function EditVoucher() {
   };
   
   return (
-    <div className="edit-voucher-wrapper">
-      <VoucherForm
-        voucher={voucher} 
-        currentDate={today} 
-        units={data[1]}
-      />
-      <Accordion title="Calculator">
-      <Form 
-        method='put' 
-        onSubmit={(event) => {
-          if (
-            !window.confirm(
-              "Please confirm that you want to update the value"
-            )
-          ) {
-            event.preventDefault();
-            }
+    <Container>
+      <Stack
+        direction="column"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}  
+      >
+        <Typography 
+          variant="h2"
+          sx={{fontSize: '30px', fontWeight: 'bold'}}
+        >
+          Edit QR Voucher
+        </Typography>
+        <VoucherForm
+          voucher={voucher} 
+          currentDate={today} 
+          units={data[1]}
+        />
+      </Stack>
+
+      <Stack 
+        direction="column"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}  
+        sx={{
+          marginTop: '50px', 
+          backgroundColor: '#CACFD2', 
+          borderRadius: '4px',
+          padding: '20px 20px'
         }}
       >
-          <div className="calculation">
-            <div className="sum-input">
-              <input name="sum" type="number" value={inputValue} onChange={handleChange}/>
-            </div>
-            <div className="minus-sign">
-              -
-            </div>
-            <div className='value-readonly'>
-              <input name="value" readOnly type="number" defaultValue={voucher.value}/>
-            </div> 
-            <div className="difference">
-              <hr/>
-              {difference} {voucher.unit.name}
-            </div>
-          </div>
-          <button type="submit">
-            Update
-          </button>
-          </Form>
-        </Accordion>
+        <Typography 
+          variant="h3" 
+          sx={{fontSize: '20px', fontWeight: 'bold'}}
+        >
+          Calculator
+        </Typography>
         <Form 
-            method="post" 
-            action="destroy"
-            onSubmit={(event) =>{
-              if(
-                !window.confirm(
-                  "Are you sure you want to delete this Voucher?"
-                )
-              ){
-                event.preventDefault();
-              }
-            }}
+          method='put' 
+          onSubmit={(event) => {
+            if (
+              !window.confirm(
+                "Please confirm that you want to update the value"
+              )
+            ) {
+              event.preventDefault();
+            }
+          }}
+        >
+          <Grid container>
+            <Grid item xs={1}>
+              <Box></Box>
+            </Grid>
+            <Grid item xs={11}>
+              <TextField 
+                variant="standard"
+                name="value" 
+                InputProps={{
+                  readOnly: true,
+                  disableUnderline: true,
+                }}
+                type="number" 
+                defaultValue={voucher.value}
+                sx={{color: 'black', marginLeft: '12px'}}
+              />
+            </Grid>
+            <Grid item xs={1} display={"flex"} justifyContent={"center"} alignItems={"center"}>
+              <Box className="minus-sign">
+                -
+              </Box>
+            </Grid>
+            <Grid item xs={11}>
+              <TextField
+                name="sum"
+                type="number"
+                value={inputValue}
+                onChange={handleChange}
+                sx={{backgroundColor: 'white', borderRadius: '4px'}}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider 
+                sx={{
+                  color: 'green', border: '1px solid black !important',
+                  marginBottom: '10px'
+                }}
+              />
+            </Grid>
+            <Grid item xs={1}>
+
+            </Grid>
+            <Grid item xs={11} paddingLeft={"10px"}>
+              {difference >= 0 ? difference : difference*-1} {voucher.unit.name} {difference >= 0 ? "open" : "left"}
+            </Grid>
+          </Grid>
+
+          <Button 
+            type="submit" 
+            variant="contained" 
+            sx={{backgroundColor: 'black', marginTop: '20px'}}
           >
-            <button className="delete-voucher-btn">
-              <Trash color="red"/>
-            </button>
-          </Form>
-    </div>
+            Update
+          </Button>
+        </Form>
+      </Stack>
+
+
+    </Container>
   );
 }
 

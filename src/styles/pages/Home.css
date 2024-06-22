@@ -2,7 +2,7 @@
   display: grid;
   grid-template-rows: 1fr auto;
   grid-template-columns: 1fr; 
-  margin: 0px 20px;
+  margin: 0px 100px;
 }
 
 .FullWidthRow {
@@ -12,13 +12,11 @@
 }
 
 .ThreeElementsRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px; 
+  gap: 20px; 
 }
 
 .OptionWrapper{
-  background-color: #EAB93C;
+  background-color: black;
   width: 100%;
   display: flex;
   flex-direction: column;

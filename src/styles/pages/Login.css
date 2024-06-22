@@ -1,5 +1,5 @@
 .LoginBG{
-  background-color: #EAB93C;
+  background-color: #393D3F;
   display: flex;
   height: 100vh;
   align-items: center;
@@ -7,11 +7,11 @@
   min-height: fit-content;
 }
 
-.LoginBG h1{
+.login-bg-header{
   position: fixed;
   top: 10px;
   left: 20px;
-  color: #a7842b;
+  color: #62686b;
 }
 
 .LoginWrapper{
@@ -25,66 +25,19 @@
 }
 
 .FormWrapper{
-  padding: 10px 20px;
+  padding: 10% 10%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   margin-bottom: 10px 0px 10px 0px;
   overflow: hidden;
+  gap: 20px;
 }
 
 .FormWrapper h2{
   text-align: center;
   margin: 0px 0px 10px 0px;
   font-size: 24px;
-}
-
-.FormWrapper p{
-  margin: 0px 0px 40px 0px;
-  padding: 0px;
-  color: rgba(0,0,0,0.5);
-  font-size: 18px;
-}
-
-.FormWrapper .Field{
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  min-width: 20vw;
-  margin-bottom: 20px;
-}
-
-.Field label{
-  font-size: 18px;
-}
-
-.Field input{
-  margin-top: 10px;
-  height: 20px;
-  border-radius: 20px;
-  border: 2px solid rgba(0,0,0,0.25);
-  padding: 10px 10px;
-  font-size: 16px;
-}
-
-.FormWrapper button{
-  margin-top: 20px;
-  background-color: #EAB93C;
-  border: none;
-  padding: 20px 40px;
-  border-radius: 20px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  width: 60%;
-  min-width: 20vw;
-  cursor: pointer;
-  transition: background-color .25s ease-in-out;
-}
-
-.FormWrapper button:hover{
-  background-color: #a7842b;
 }
 
 .LoginImage{

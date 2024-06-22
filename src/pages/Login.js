@@ -4,6 +4,8 @@ import { useAuth } from '../authContext';
 import '../styles/pages/Login.css'
 import { Form, redirect } from 'react-router-dom';
 import { backendUrl } from "../index";
+import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
+import { LoginOutlined } from '@mui/icons-material';
 
 async function loginUser(email, password) {
   return axios.post(`${backendUrl}/businesses/tokens/sign_in`, {
@@ -54,27 +56,69 @@ function Login() {
   };
 
   return (
-    <div className='LoginBG'>
-    <h1>ScanVoucher</h1>
-      <div className='LoginWrapper'>
-        <Form className='FormWrapper' method='post'>
-          <h2>Anmeldung</h2>
-          <p>Anmelden um zu starten!</p>
-          <div className='Field'>
-            <label htmlFor='Email'>Email:</label>
-              <input id='Email' name='email' type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          </div>
-          <div className='Field'>
-            <label htmlFor='Password'>Passwort:</label>
-              <input id='Password' name='password' type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-          </div>
-          <button type='submit'>Anmelden</button>
-        </Form>
+    <Container class='LoginBG'>
+      <Typography 
+        variant='h1' 
+        class="login-bg-header"
+      >
+        ScanVoucher
+      </Typography>
+      <Box class='LoginWrapper'>
+        <Stack 
+          component={Form} 
+          method='post' 
+          class='FormWrapper'
+        >
+          <Box>
+            <Typography 
+              variant='h2' 
+            >
+              Login
+            </Typography>
+            <Typography 
+              variant='subtitle1' 
+              textAlign={"center"}
+            >
+              Login to start!
+            </Typography>
+          </Box>
+          <TextField 
+            name="email" 
+            required
+            label="Email" 
+            variant="outlined"
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField 
+            name="password" 
+            required
+            label="Password" 
+            variant="outlined"
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              marginTop:"20px",
+              width:"100%", 
+              backgroundColor:"black"
+            }}
+            size="large"
+            endIcon={<LoginOutlined/>}
+          >
+            Login
+          </Button>
+        </Stack>
         <div className='ImageWrapper'>
           <img src='/images/placeholder.jpg' className='LoginImage'/>
         </div>
-      </div>
-    </div>
+      </Box>
+    </Container>
   );
 }
 

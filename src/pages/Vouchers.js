@@ -3,10 +3,11 @@ import { Form, Link, redirect, useLoaderData, useSubmit } from "react-router-dom
 import axios from "axios";
 import { backendUrl } from "../index";
 import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Accordion, AccordionSummary, AccordionDetails, DateRangePicker, Select, OutlinedInput, Box, Chip, MenuItem, Checkbox } from "@mui/material";
-import { Cancel, CheckCircle, KeyboardArrowDown } from "@mui/icons-material";
-import { DataGrid } from '@mui/x-data-grid';
+import { Cancel, CheckCircle, CheckOutlined, CloseOutlined, KeyboardArrowDown } from "@mui/icons-material";
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import CustomToolbar from "../components/CustomToolbar";
 
 
 export async function loader({request}) {
@@ -115,6 +116,8 @@ function Vouchers() {
   const [voucherStatus, setVoucherStatus] = useState([...status]);
   const [selectedUnits, setSelectedUnits] = useState([...unitID]);
   const [hasExpiryDateForm, setHasExpiryDateForm] = useState(hasExpiryDate);
+  const [rowSelectionModel, setRowSelectionModel] = useState([]);
+  
   const formRef = useRef(null);
   const submit = useSubmit();
   const today = new Date();
@@ -136,39 +139,34 @@ function Vouchers() {
     {
       field: 'id', 
       headerName: 'ID', 
-      width: 500,
       renderCell: (params) =>
         <Link to={`/vouchers/${params.value}`}>{params.value}</Link>,
-    },
-    {
-      field: 'created_at', 
-      headerName: 'Date', 
-      width: 200,
-      valueGetter: (value) => 
-        `${new Date(value).toLocaleDateString('de-DE')}`
     },
     {field: 'value', headerName: 'Value', width: 100},
     {
       field: 'unit', 
       headerName: 'Unit', 
-      width: 100,
       valueGetter: (value) => 
         `${value.name}`
     },
     {
       field: 'status', 
       headerName: 'Status', 
-      width: 100,
       renderCell: (params) =>
         (params.value === 'active' ? 
-          <CheckCircle sx={{color: '#33FF00'}}/> : 
-          <Cancel sx={{color: 'red'}}/>
+          <CheckOutlined sx={{color: '#33FF00'}}/> : 
+          <CloseOutlined sx={{color: 'red'}}/>
         ),
+    },
+    {
+      field: 'created_at', 
+      headerName: 'Date', 
+      valueGetter: (value) => 
+        `${new Date(value).toLocaleDateString('de-DE')}`
     },
     {
       field: 'expiry_date', 
       headerName: 'Expiry Date', 
-      width: 300, 
       renderCell: (params) => {
         if(!params.value){
           return <span>-</span>
@@ -251,7 +249,6 @@ function Vouchers() {
   }
 
   const getExpiryCheckboxChecked = (value) =>{
-    console.log(value);
     if(hasExpiryDateForm === value){
       return true
     }
@@ -400,6 +397,13 @@ function Vouchers() {
         columns={columns}
         rows={vouchers}
         checkboxSelection
+        rowSelectionModel={rowSelectionModel}
+        onRowSelectionModelChange={(newRowSelectionModel) => {
+          setRowSelectionModel(newRowSelectionModel);
+        }}
+        slots={{ 
+          toolbar: ()=> <CustomToolbar rowSelectionModel={rowSelectionModel}/> 
+        }}
       />
     </>
   );

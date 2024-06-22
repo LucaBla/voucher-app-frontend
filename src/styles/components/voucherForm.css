@@ -58,7 +58,7 @@ fieldset{
   height: 26px !important;
 }
 
-.Mui-checked{
+.StatusInput .Mui-checked{
   transform: translate(20px, -3px) !important;
 }
 

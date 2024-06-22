@@ -13,9 +13,9 @@ import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
 
-  if (bearerToken === undefined || bearerToken === null) {
-    return redirect(`/login`);
-  }
+  // if (bearerToken === undefined || bearerToken === null) {
+  //   return redirect(`/login`);
+  // }
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -32,6 +32,7 @@ export async function loader({ params }) {
     return response.data;
   } catch (error) {
     console.error(error);
+    return {};
   }
 }
 

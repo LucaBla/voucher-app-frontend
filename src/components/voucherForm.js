@@ -133,6 +133,7 @@ export default function VoucherForm({voucher, currentDate, units}){
             <span>Status</span>
             <Switch 
               name="status" 
+              className="StatusInput"
               value={voucherStatus} 
               checked={voucherStatus=== 'active' ? true: false}
               onChange={handleSwitchChange}

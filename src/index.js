@@ -31,6 +31,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import Settings from './pages/Settings';
 import { loader as businessLoader} from './pages/Settings'
 import { action as updateBusinessAction} from './pages/Settings'
+import {action as bulkDestroyVouchersAction} from './components/CustomToolbar'
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path: "/vouchers/:voucherId/edit/destroy",
         action: destroyVoucherAction,
+      },
+      {
+        path: "/vouchers/bulk_destroy",
+        action: bulkDestroyVouchersAction,
       },
     ],
   },

@@ -38,6 +38,7 @@ export async function loader({ params }) {
 
 function Voucher() {
   const voucher = useLoaderData();
+  const authToken = localStorage.getItem('authToken');
 
   const expiryDate = new Date(voucher.expiry_date).toLocaleDateString();
 
@@ -63,15 +64,19 @@ function Voucher() {
             >
               Voucher Details
             </Typography>
-            <Button 
-              variant="contained"
-              component={Link}
-              to={`/vouchers/${voucher.id}/edit`}
-              endIcon={<EditOutlined/>} 
-              sx={{backgroundColor:"black"}}
-            >
-              Edit
-            </Button>
+            {authToken?
+              <Button 
+                variant="contained"
+                component={Link}
+                to={`/vouchers/${voucher.id}/edit`}
+                endIcon={<EditOutlined/>} 
+                sx={{backgroundColor:"black"}}
+              >
+                Edit
+              </Button>
+            :
+              <></>
+            }
           </Stack>
           <Stack gap={"10px"} marginTop={"10px"}>
             <Box 

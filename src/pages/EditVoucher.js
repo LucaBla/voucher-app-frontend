@@ -1,4 +1,4 @@
-import { Form, Link, redirect, useLoaderData } from "react-router-dom";
+import { Form, Link, redirect, useLoaderData, useLocation, useNavigation } from "react-router-dom";
 import axios from "axios";
 import VoucherForm from "../components/voucherForm";
 import { backendUrl } from "../index";
@@ -6,7 +6,9 @@ import { useState } from "react";
 import "../styles/pages/EditVoucher.css"
 import Accordion from "../components/accordion";
 import { Trash } from "react-feather";
-import { Alert, Box, Button, Container, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { SendOutlined } from "@mui/icons-material";
+import SettingsSnackbar from "../components/SettingsSnackbar";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');
@@ -104,18 +106,90 @@ function updateFormDataValueBasedOnSum(formData){
 
 function EditVoucher() {
   const data = useLoaderData();
+  const location = useLocation();
+
   const voucher = data[0];
   const today = new Date().toISOString().substring(0,10);
   const [difference, setDifference] = useState(data[0].value * -1);
   const [inputValue, setInputValue] = useState(0);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [sendPath, setSendPath] = useState("");
+
+  const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
+
   const handleChange = (event) => {
     setInputValue(event.target.value);
     setDifference(event.target.value - voucher.value);
   };
+
+  const openDialog = () =>{
+    setIsDialogOpen(true);
+    setSendPath(buildSendPath());
+  };
+
+  const handleDialogClose = () =>{
+    setIsDialogOpen(false);
+    setIsSnackBarOpen(true);
+  };
+
+  const buildSendPath = () =>{
+    const originalPath = location.pathname;
+    const separatedPath = originalPath.split('/');
+    const id = separatedPath[2];
+
+    const newPath = `/vouchers/${id}/send`;
+
+    console.log(newPath);
+
+    return newPath;
+  }
   
   return (
     <Container>
+      <SettingsSnackbar
+        isSnackBarOpen={isSnackBarOpen}
+        handleSnackbarClose={()=> setIsSnackBarOpen(false)}
+        snackbarContent="Email Send Successfully"
+      />
+      <Dialog
+        open={isDialogOpen}
+        onClose={handleDialogClose}
+        component={Form}
+        method="post"
+        action={sendPath}
+        onSubmit={handleDialogClose}
+      >
+        <DialogTitle>Send Voucher Per Email</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter The Recipients Email-Adress
+          </DialogContentText>
+          <TextField 
+            required 
+            name="email" 
+            label="Email" 
+            variant="standard" 
+            fullWidth  
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            onClick={handleDialogClose}
+            sx={{color:"black"}}
+          >
+            Close
+          </Button>
+          <Button 
+            type="submit" 
+            endIcon={<SendOutlined/>} 
+            variant="contained" 
+            sx={{backgroundColor:"black"}}
+          >
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Stack
         direction="column"
         justifyContent="space-between"
@@ -133,6 +207,12 @@ function EditVoucher() {
           currentDate={today} 
           units={data[1]}
         />
+        <Button 
+          endIcon={<SendOutlined/>}
+          onClick={openDialog}
+        >
+          Send Voucher per Email
+        </Button>
       </Stack>
 
       <Stack 

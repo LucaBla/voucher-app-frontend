@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Form, Link, redirect, useLoaderData, useSubmit } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "../index";
-import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Accordion, AccordionSummary, AccordionDetails, DateRangePicker, Select, OutlinedInput, Box, Chip, MenuItem, Checkbox } from "@mui/material";
-import { Cancel, CheckCircle, CheckOutlined, CloseOutlined, KeyboardArrowDown } from "@mui/icons-material";
+import { TableContainer, Table, Paper, TableHead, TableRow, TableCell, TableBody, Accordion, AccordionSummary, AccordionDetails, DateRangePicker, Select, OutlinedInput, Box, Chip, MenuItem, Checkbox, Card, Stack, TextField, Typography } from "@mui/material";
+import { Cancel, CheckCircle, CheckOutlined, CloseOutlined, CreditCardOutlined, FunctionsOutlined, KeyboardArrowDown } from "@mui/icons-material";
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
@@ -139,19 +139,26 @@ function Vouchers() {
     {
       field: 'id', 
       headerName: 'ID', 
+      flex: 4,
       renderCell: (params) =>
         <Link to={`/vouchers/${params.value}`}>{params.value}</Link>,
     },
-    {field: 'value', headerName: 'Value', width: 100},
+    {
+      field: 'value', 
+      headerName: 'Value', 
+      flex: 2,
+    },
     {
       field: 'unit', 
       headerName: 'Unit', 
+      flex: 2,
       valueGetter: (value) => 
         `${value.name}`
     },
     {
       field: 'status', 
       headerName: 'Status', 
+      flex: 1,
       renderCell: (params) =>
         (params.value === 'active' ? 
           <CheckOutlined sx={{color: '#33FF00'}}/> : 
@@ -161,12 +168,14 @@ function Vouchers() {
     {
       field: 'created_at', 
       headerName: 'Date', 
+      flex: 3,
       valueGetter: (value) => 
         `${new Date(value).toLocaleDateString('de-DE')}`
     },
     {
       field: 'expiry_date', 
       headerName: 'Expiry Date', 
+      flex: 3,
       renderCell: (params) => {
         if(!params.value){
           return <span>-</span>
@@ -229,9 +238,6 @@ function Vouchers() {
   }
 
   const handleExpiryCheckboxChange = (event) => {
-    console.log('TEST');
-    console.log(event.target.value);
-    console.log(hasExpiryDateForm);
     if(hasExpiryDateForm === event.target.value){
       setHasExpiryDateForm(null);
     }
@@ -265,7 +271,68 @@ function Vouchers() {
         Filter
       </AccordionSummary>
       <AccordionDetails sx={{backgroundColor: '#2556', color: 'white'}}>
-        <Form ref={formRef}>
+        <Stack component={Form} ref={formRef} gap={1}>
+          <label>
+            <Typography
+              sx={{fontWeight: 'bold'}}
+            >
+              Voucher-Value
+            </Typography>
+            <Stack direction={"row"} gap={2}>
+              <TextField 
+                name="min_value" 
+                required
+                defaultValue={minValue}
+                label="Min Value" 
+                variant="outlined"
+                onChange={handleValueInput}
+              />
+              <TextField 
+                name="max_value" 
+                required
+                defaultValue={maxValue}
+                label="Max Value" 
+                variant="outlined"
+                onChange={handleValueInput}
+              />
+            </Stack>
+          </label>
+          <label>
+            <Typography
+              sx={{fontWeight: 'bold'}}
+            >
+              Unit
+            </Typography>
+            <Select
+              name="unit_id"
+              multiple
+              value={selectedUnits}
+              onChange={handleUnitChange}
+              input={<OutlinedInput/>}
+              renderValue={(selected) =>(
+                <Box>
+                  {selected.map((value) =>{
+                    const unit = units.find(unit => unit.id === value);
+                    const label = unit ? unit.name : 'Unknown Unit';
+                    return(
+                      <Chip key={value} label={label}/>
+                    )
+                  }
+                  )}
+                </Box>
+              )}
+              sx={{ marginLeft: '5px'}}
+            >
+              {units.map((unit, index) => (
+                <MenuItem
+                  key={index}
+                  value={unit.id}
+                >
+                  {unit.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </label>
           <fieldset>
             <span>Status</span>
             <div className="radio-button-wrapper">
@@ -293,85 +360,52 @@ function Vouchers() {
               </label>
             </div>
           </fieldset>
-          <fieldset>
           <label>
-            Min Value
-            <input
-              type="text"
-              name="min_value"
-              defaultValue={minValue}
-              onChange={handleValueInput}
-            />
-          </label>
-          <label>
-            Max Value
-            <input
-              type="text"
-              name="max_value"
-              defaultValue={maxValue}
-              onChange={handleValueInput}
-            />
-          </label>
-          </fieldset>
-          <label>
-            <span>Unit</span>
-            <Select
-              name="unit_id"
-              multiple
-              value={selectedUnits}
-              onChange={handleUnitChange}
-              input={<OutlinedInput/>}
-              renderValue={(selected) =>(
-                <Box>
-                  {selected.map((value) =>{
-                    const unit = units.find(unit => unit.id === value);
-                    const label = unit ? unit.name : 'Unknown Unit';
-                    return(
-                      <Chip key={value} label={label}/>
-                    )
-                  }
-                  )}
-                </Box>
-              )}
+            <Typography
+              sx={{fontWeight: 'bold'}}
             >
-              {units.map((unit, index) => (
-                <MenuItem
-                  key={index}
-                  value={unit.id}
-                >
-                  {unit.name}
-                </MenuItem>
-              ))}
-            </Select>
+              Created after- Created Until
+            </Typography>
+            <Stack direction={"row"} gap={2}>
+              <DatePicker
+                name="created_after"
+                defaultValue={
+                  createdAfter ? dayjs(createdAfter) : undefined
+                }
+                onChange={handleDateChange}
+                slotProps={{field: {clearable: true}}}
+              />
+              <DatePicker
+                name="created_until"
+                defaultValue={
+                  createdUntil ? dayjs(createdUntil) : undefined
+                }
+                onChange={handleDateChange}
+                slotProps={{field: {clearable: true}}}
+              />
+            </Stack>
           </label>
-          <fieldset>
-            <DatePicker
-              name="created_after"
-              defaultValue={createdAfter ? dayjs(createdAfter) : undefined}
-              onChange={handleDateChange}
-              slotProps={{field: {clearable: true}}}
-            />
-            <DatePicker
-              name="created_until"
-              defaultValue={createdUntil ? dayjs(createdUntil) : undefined}
-              onChange={handleDateChange}
-              slotProps={{field: {clearable: true}}}
-            />
-          </fieldset>
-          <fieldset>
-            <DatePicker
-              name="expires_after"
-              defaultValue={expiresAfter ? dayjs(expiresAfter) : undefined}
-              onChange={handleDateChange}
-              slotProps={{field: {clearable: true}}}
-            />
-            <DatePicker
-              name="expires_until"
-              defaultValue={expiresUntil ? dayjs(expiresUntil) : undefined}
-              onChange={handleDateChange}
-              slotProps={{field: {clearable: true}}}
-            />
-          </fieldset>
+          <label>
+            <Typography
+              sx={{fontWeight: 'bold'}}
+            >
+              Expires after- Expires Until
+            </Typography>
+            <Stack direction={"row"} gap={2}>
+              <DatePicker
+                name="expires_after"
+                defaultValue={expiresAfter ? dayjs(expiresAfter) : undefined}
+                onChange={handleDateChange}
+                slotProps={{field: {clearable: true}}}
+              />
+              <DatePicker
+                name="expires_until"
+                defaultValue={expiresUntil ? dayjs(expiresUntil) : undefined}
+                onChange={handleDateChange}
+                slotProps={{field: {clearable: true}}}
+              />
+            </Stack>
+          </label>
           <label>
             <span>Hide No Expiry Date Vouchers</span>
             <Checkbox
@@ -390,21 +424,74 @@ function Vouchers() {
               value="false"
             />
           </label>
-        </Form>
+        </Stack>
       </AccordionDetails>
     </Accordion>
-      <DataGrid
-        columns={columns}
-        rows={vouchers}
-        checkboxSelection
-        rowSelectionModel={rowSelectionModel}
-        onRowSelectionModelChange={(newRowSelectionModel) => {
-          setRowSelectionModel(newRowSelectionModel);
+    <Stack 
+      direction={"row"} 
+      spacing={2} 
+      justifyContent="center"
+      alignItems="center"
+      margin={"20px 0px"}
+      height={'150px'}
+    >
+      <Card 
+        variant="outlined" 
+        sx={{
+          width: "150px", 
+          height: "100%", 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          textAlign: 'center',
         }}
-        slots={{ 
-          toolbar: ()=> <CustomToolbar rowSelectionModel={rowSelectionModel}/> 
+      >
+        <FunctionsOutlined 
+          sx={{
+            zIndex: '0', 
+            position: "absolute", 
+            opacity: '0.2',
+            fontSize: '5rem'
+          }}
+        />
+        Voucher Total: <br/>
+        {vouchers.reduce((sum, voucher) => sum + voucher.value, 0)}
+      </Card>
+      <Card 
+        variant="outlined" 
+        sx={{
+          width: "150px", 
+          height: "100%",  
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          textAlign: 'center',
         }}
-      />
+      >
+        <CreditCardOutlined 
+          sx={{
+            zIndex: '0', 
+            position: "absolute", 
+            opacity: '0.2',
+            fontSize: '5rem'
+          }}
+        />
+        Voucher Number: <br/>
+        {vouchers.length}
+      </Card>
+    </Stack>
+    <DataGrid
+      columns={columns}
+      rows={vouchers}
+      checkboxSelection
+      rowSelectionModel={rowSelectionModel}
+      onRowSelectionModelChange={(newRowSelectionModel) => {
+        setRowSelectionModel(newRowSelectionModel);
+      }}
+      slots={{ 
+        toolbar: ()=> <CustomToolbar rowSelectionModel={rowSelectionModel}/> 
+      }}
+    />
     </>
   );
 

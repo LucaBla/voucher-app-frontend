@@ -32,6 +32,7 @@ import Settings from './pages/Settings';
 import { loader as businessLoader} from './pages/Settings'
 import { action as updateBusinessAction} from './pages/Settings'
 import {action as bulkDestroyVouchersAction} from './components/CustomToolbar'
+import {action as sendVoucherAction} from './pages/SendVoucher'
 
 export const frontendUrl = "http://127.0.0.1:3001";
 export const  backendUrl = "http://127.0.0.1:3000";
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
         path: "/vouchers/:voucherId",
         element: <Voucher/>,
         loader: voucherLoader,
+      },
+      {
+        path: "/vouchers/:voucherId/send",
+        action: sendVoucherAction,
       },
       {
         path: "/vouchers/:voucherId/edit",

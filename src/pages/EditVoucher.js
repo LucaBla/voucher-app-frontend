@@ -1,12 +1,10 @@
-import { Form, Link, redirect, useLoaderData, useLocation, useNavigation } from "react-router-dom";
+import { Form, redirect, useLoaderData, useLocation } from "react-router-dom";
 import axios from "axios";
 import VoucherForm from "../components/voucherForm";
 import { backendUrl } from "../index";
 import { useState } from "react";
 import "../styles/pages/EditVoucher.css"
-import Accordion from "../components/accordion";
-import { Trash } from "react-feather";
-import { Alert, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
 import { SendOutlined } from "@mui/icons-material";
 import SettingsSnackbar from "../components/SettingsSnackbar";
 

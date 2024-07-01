@@ -1,5 +1,5 @@
 import "../styles/pages/ScanVoucher.css";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {Scanner} from '@yudiel/react-qr-scanner';
 import { frontendUrl } from "..";
 

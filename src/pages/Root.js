@@ -1,12 +1,10 @@
-import { Link, Outlet, redirect, useLoaderData, useNavigate, useNavigation } from "react-router-dom";
+import { Outlet, redirect, useLoaderData } from "react-router-dom";
 import { useAuth } from "../authContext";
 import Header from "../components/header";
-import Home from "./Home";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { backendUrl } from "../index";
 import Footer from "../components/footer";
-import { ArrowLeft } from "react-feather";
 
 export async function loader({request}) {
   const bearerToken = localStorage.getItem('authToken');

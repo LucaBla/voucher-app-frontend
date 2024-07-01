@@ -1,7 +1,7 @@
-import { Archive, Eye, Plus } from "react-feather";
+import { Archive, Plus } from "react-feather";
 import "../styles/pages/Home.css";
 import { Link, useLoaderData } from "react-router-dom";
-import { Box, Container, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { QrCodeScannerOutlined } from "@mui/icons-material";
 
 function Home({name}) {

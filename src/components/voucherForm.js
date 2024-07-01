@@ -1,9 +1,8 @@
-import { Form, Link, useSubmit } from "react-router-dom";
+import { Form, useSubmit } from "react-router-dom";
 import "../styles/components/voucherForm.css"
-import { CheckCircle, Info, Trash, XCircle } from "react-feather";
 import { useRef, useState } from "react";
-import { Alert, Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, InputLabel, MenuItem, Select, Stack, Switch, TextField, Typography } from "@mui/material";
-import { CheckOutlined, CloseOutlined, DeleteOutline, SaveOutlined, X } from "@mui/icons-material";
+import { Alert, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, MenuItem, Stack, Switch, TextField, Typography } from "@mui/material";
+import {DeleteOutline, SaveOutlined} from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 

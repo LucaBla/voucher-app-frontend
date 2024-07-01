@@ -1,8 +1,6 @@
-import { User } from "react-feather";
 import '../styles/components/footer.css';
-import { useAuth } from "../authContext";
-import { Form, Link } from "react-router-dom";
-import { Alert, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, List, ListItem, ListItemText, Snackbar, Stack, TextField, Typography } from "@mui/material";
+import { Form } from "react-router-dom";
+import { Box, Button, IconButton, List, ListItem, ListItemText, Stack, Typography } from "@mui/material";
 import { AddOutlined, DeleteOutline } from "@mui/icons-material";
 
 function UnitsList({

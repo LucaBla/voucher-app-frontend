@@ -1,9 +1,7 @@
-import { ArrowLeft, User } from "react-feather";
 import '../styles/components/header.css';
-import { useAuth } from "../authContext";
 import { Link, useNavigate, NavLink } from "react-router-dom";
-import { Box, Button, Divider, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { AddOutlined, Inventory2Outlined, Logout, LogoutOutlined, PersonOutline, QrCodeScannerOutlined, SettingsOutlined } from "@mui/icons-material";
+import { Box, Drawer, IconButton, List, ListItemButton, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import { AddOutlined, Inventory2Outlined, LogoutOutlined, PersonOutline, QrCodeScannerOutlined, SettingsOutlined } from "@mui/icons-material";
 import { useState } from "react";
 
 function Header({name}) {

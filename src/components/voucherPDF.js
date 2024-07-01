@@ -1,7 +1,6 @@
 import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
 import { useState, useEffect } from "react";
 import QRCode from "qrcode";
-import { CheckCircle } from "react-feather";
 
 export default function VoucherPDF({id, companyName, status, value, unit, expiry_date, qrCodeString}){
   const [QRCodeString, setQRCodeString] = useState("");

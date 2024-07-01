@@ -1,5 +1,5 @@
 import { DeleteOutline } from "@mui/icons-material";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { GridToolbarColumnsButton, GridToolbarContainer, GridToolbarExport, GridToolbarFilterButton } from "@mui/x-data-grid";
 import axios from "axios";
 import { Form, redirect, useNavigation } from "react-router-dom";

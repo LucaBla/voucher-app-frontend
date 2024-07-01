@@ -1,9 +1,7 @@
-import { User } from "react-feather";
 import '../styles/components/footer.css';
-import { useAuth } from "../authContext";
-import { Form, Link } from "react-router-dom";
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField } from "@mui/material";
-import { AddOutlined, SaveOutlined } from "@mui/icons-material";
+import { Form } from "react-router-dom";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { AddOutlined } from "@mui/icons-material";
 
 function CreateUnitDialog({
   isModalOpen, handleModalClose

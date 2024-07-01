@@ -1,14 +1,12 @@
-import { Link, redirect, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import QRCode from "react-qr-code";
 import { backendUrl, frontendUrl } from "../index";
-import ReactPDF, { Document, PDFDownloadLink, PDFViewer, Page, Text, View } from "@react-pdf/renderer";
+import { PDFDownloadLink} from "@react-pdf/renderer";
 import VoucherPDF from "../components/voucherPDF";
-import { useEffect, useState } from "react";
 import "../styles/pages/Voucher.css"
-import { CheckCircle, Edit2, XCircle } from "react-feather";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PlaceOutlined, PlaceSharp, StoreOutlined, TagFacesOutlined } from "@mui/icons-material";
+import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PlaceOutlined, StoreOutlined } from "@mui/icons-material";
 
 export async function loader({ params }) {
   const bearerToken = localStorage.getItem('authToken');

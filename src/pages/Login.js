@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../authContext';
 import '../styles/pages/Login.css'
-import { Form, redirect } from 'react-router-dom';
+import { Form, redirect, useActionData, useLoaderData, useRouteError } from 'react-router-dom';
 import { backendUrl } from "../index";
 import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
 import { LoginOutlined } from '@mui/icons-material';
+import SettingsSnackbar from '../components/SettingsSnackbar';
 
 async function loginUser(email, password) {
   return axios.post(`${backendUrl}/businesses/tokens/sign_in`, {
@@ -33,30 +34,33 @@ export async function action({request, params}){
     localStorage.setItem('authToken', token);
   }
   catch(error){
-    return null;
+    return error;
   }
   
-  //await updateContact(params.contactId, updates);
   return redirect(`/`);
 }
 
 function Login() {
+  const error = useActionData();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const {setToken} = useAuth();
+  const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
 
-  const handleLogin = async () => {
-    try {
-      const token = await loginUser(email, password);
-      localStorage.setItem('authToken', token);
-      setToken(token);
-    } catch (error) {
-      console.error('Login failed', error);
+  useEffect(() => {
+    if(error){
+      setIsSnackBarOpen(true);
     }
-  };
+  }, [error]);
 
   return (
     <Container class='LoginBG'>
+      <SettingsSnackbar
+        isSnackBarOpen={isSnackBarOpen} 
+        handleSnackbarClose={()=>setIsSnackBarOpen(false)}
+        snackbarContent="Login Failed."
+        severity = "error"
+      />
       <Typography 
         variant='h1' 
         class="login-bg-header"

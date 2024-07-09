@@ -2,7 +2,7 @@ import '../styles/components/footer.css';
 import { Alert, Snackbar } from "@mui/material";
 
 function SettingsSnackbar({
-  isSnackBarOpen, handleSnackbarClose, snackbarContent
+  isSnackBarOpen, handleSnackbarClose, snackbarContent, severity = "info"
 }) {
   return (
     <Snackbar
@@ -12,7 +12,7 @@ function SettingsSnackbar({
       onClose={handleSnackbarClose}
       sx={{ top: { xs: 0, sm: 100 } }}
     >
-      <Alert severity="success" variant="filled">
+      <Alert severity={severity} variant="filled">
         {snackbarContent}
       </Alert>  
     </Snackbar>

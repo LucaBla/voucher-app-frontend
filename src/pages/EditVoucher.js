@@ -149,6 +149,7 @@ function EditVoucher() {
         isSnackBarOpen={isSnackBarOpen}
         handleSnackbarClose={()=> setIsSnackBarOpen(false)}
         snackbarContent="Email Send Successfully"
+        severity="success"
       />
       <Dialog
         open={isDialogOpen}

@@ -114,7 +114,6 @@ function Settings() {
   if(
     navigation.state === "loading" && 
     navigation.formData != null && 
-    //navigation.formAction === navigation.location.pathname &&
     !isSnackBarOpen
   ){
     handleSnackbarOpen();

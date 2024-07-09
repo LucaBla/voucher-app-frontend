@@ -1,7 +1,8 @@
 import "../styles/pages/ScanVoucher.css";
 import { useNavigate } from "react-router-dom";
-import {Scanner} from '@yudiel/react-qr-scanner';
+import { Scanner } from "@yudiel/react-qr-scanner";
 import { frontendUrl } from "..";
+import { useState } from "react";
 
 function ScanVoucher({name}) {
   const navigate = useNavigate();
@@ -10,9 +11,9 @@ function ScanVoucher({name}) {
     <div className="scan-voucher-page">
       <div className="scanner-wrapper">
         <Scanner
-          //onDecode={(result) => console.log(result)}
-          onResult={(result) => {
-            result = result.replace(frontendUrl, '');
+          onScan={(result) => {
+            console.log(result[0]);
+            result = result[0].rawValue.replace(frontendUrl, '');
             navigate(result);
           }}
           onError={(error) => console.log(error?.message)}

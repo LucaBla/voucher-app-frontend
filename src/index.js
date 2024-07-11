@@ -34,9 +34,8 @@ import { action as updateBusinessAction} from './pages/Settings'
 import {action as bulkDestroyVouchersAction} from './components/CustomToolbar'
 import {action as sendVoucherAction} from './pages/SendVoucher'
 
-export const frontendUrl = "http://127.0.0.1:3001";
-//export const  backendUrl = "http://127.0.0.1:3000";
-export const  backendUrl = "https://remembrance-celsius-02268-828189d56c3f.herokuapp.com";
+export const frontendUrl = process.env.REACT_APP_FRONTEND_URL;
+export const backendUrl = process.env.REACT_APP_BACKEND_URL;
  
 const router = createBrowserRouter([
   {

@@ -165,7 +165,7 @@ function EditVoucher() {
         </DialogContent>
         <DialogActions>
           <Button 
-            onClick={handleDialogClose}
+            onClick={()=>setIsDialogOpen(false)}
             sx={{color:"black"}}
           >
             Close

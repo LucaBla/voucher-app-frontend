@@ -8,14 +8,11 @@ import { DataGrid } from '@mui/x-data-grid';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import CustomToolbar from "../components/CustomToolbar";
+import { getBearerToken } from "./Root";
 
 
 export async function loader({request}) {
-  const bearerToken = localStorage.getItem('authToken');
-
-  if (bearerToken === undefined || bearerToken === null) {
-    return redirect(`/login`);
-  }
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,

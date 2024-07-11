@@ -12,8 +12,11 @@
 }
 
 .HeaderTitle{
-  color: black;
-  text-decoration: none;
+  font-size: 40px !important;
+  font-weight: bold !important;
+  margin: 10px 0px !important;
+  color: #c8c8c8 !important;
+  text-decoration: none !important;
 }
 
 a.active{
@@ -22,4 +25,10 @@ a.active{
 
 a.active:hover{
   background-color: rgb(34, 34, 34);
+}
+
+@media screen and (max-width:450px) {
+  .HeaderTitle{
+    font-size: 30px !important;
+  }
 }

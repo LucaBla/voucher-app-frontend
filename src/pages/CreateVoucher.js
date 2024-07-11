@@ -2,13 +2,10 @@ import { redirect, useLoaderData } from "react-router-dom";
 import axios from "axios";
 import VoucherForm from "../components/voucherForm";
 import { backendUrl } from "../index";
+import { getBearerToken } from "./Root";
 
-export async function loader({ params }) {
-  const bearerToken = localStorage.getItem('authToken');
-
-  if (bearerToken === undefined || bearerToken === null) {
-    return redirect(`/login`);
-  }
+export async function loader() {
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -34,14 +31,13 @@ export async function action({ request }){
 }
 
 async function createVoucher(request){
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
 
   let formData= Object.fromEntries(await request.formData());
 
   if(!formData.status){
     formData.status = 'inactive';
   }
-  console.log(formData);
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -57,7 +53,6 @@ async function createVoucher(request){
       }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

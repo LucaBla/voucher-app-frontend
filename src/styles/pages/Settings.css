@@ -1,0 +1,10 @@
+.settingsContainer{
+  width: 50% !important;
+  max-width: 800px !important;
+}
+
+@media screen and (max-width:450px) {
+  .settingsContainer{
+    width: auto !important;
+  }
+}

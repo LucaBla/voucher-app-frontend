@@ -7,7 +7,7 @@ import { backendUrl } from "../index";
 import Footer from "../components/footer";
 
 export async function loader({request}) {
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
   const showPattern = /^(https?:\/\/)?[^\/]+\/vouchers\/[0-9a-fA-F\-]+$/;
 
   if (bearerToken === undefined || bearerToken === null) {
@@ -30,6 +30,65 @@ export async function loader({request}) {
   } catch (error) {
     localStorage.removeItem('authToken');
     return redirect(`/login`);
+  }
+}
+
+export function getBearerToken(){
+  const bearerToken = localStorage.getItem('authToken');
+
+  if(isBearerTokenValid(bearerToken)){
+    return bearerToken;
+  }
+  else{
+    const refreshToken = localStorage.getItem('refreshToken');
+
+    if(!refreshToken) {
+      return redirect(`/login`);
+    }
+
+    const newAuthToken = refreshToken(refreshToken);
+    localStorage.setItem('authToken', newAuthToken);
+
+    return newAuthToken;
+  }
+}
+
+async function refreshToken(refreshToken){
+  const headers = {
+    'Authorization': `Bearer ${refreshToken}`,
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const response = await axios.post(
+      `${backendUrl}/businesses/tokens/refresh`, 
+      { headers: headers }
+    );
+
+    console.log(response);
+    return response.token;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+}
+
+async function isBearerTokenValid(bearerToken){
+  const headers = {
+    'Authorization': `Bearer ${bearerToken}`,
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const response = await axios.get(
+      `${backendUrl}/businesses/tokens/info`, 
+      { headers: headers }
+    );
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
   }
 }
 

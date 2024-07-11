@@ -6,7 +6,6 @@ import { QrCodeScannerOutlined } from "@mui/icons-material";
 
 function Home({name}) {
   const data = useLoaderData();
-  console.log(data);
 
   return (
     <Stack className="HomeWrapper">

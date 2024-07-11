@@ -1,9 +1,10 @@
 import { redirect } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "..";
+import { getBearerToken } from "./Root";
 
 export async function action({ params }) {
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
 
   if (bearerToken === undefined || bearerToken === null) {
     return redirect(`/login`);
@@ -20,7 +21,6 @@ export async function action({ params }) {
       { headers: headers }
     );
 
-    console.log(response.data);
     return redirect(`/settings`);
   } catch (error) {
     console.error(error);

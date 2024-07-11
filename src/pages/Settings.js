@@ -7,9 +7,11 @@ import SettingsSnackbar from "../components/SettingsSnackbar";
 import CreateUnitDialog from "../components/CreateUnitDialog";
 import UpdateProfileForm from "../components/UpdateProfileForm";
 import UnitsList from "../components/UnitsList";
+import { getBearerToken } from "./Root";
+import '../styles/pages/Settings.css'
 
-export async function loader({ params }) {
-  const bearerToken = localStorage.getItem('authToken');
+export async function loader() {
+  const bearerToken = getBearerToken();
 
   if (bearerToken === undefined || bearerToken === null) {
     return redirect(`/login`);
@@ -26,7 +28,6 @@ export async function loader({ params }) {
       { headers: headers }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -40,10 +41,9 @@ export async function action({ request, params }){
 }
 
 async function updateBusiness(request, params){
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
 
   let formData= Object.fromEntries(await request.formData());
-  console.log(formData);
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -59,7 +59,6 @@ async function updateBusiness(request, params){
       }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -109,8 +108,6 @@ function Settings() {
     }
   }
 
-  console.log(navigation.state);
-
   if(
     navigation.state === "loading" && 
     navigation.formData != null && 
@@ -118,12 +115,11 @@ function Settings() {
   ){
     handleSnackbarOpen();
     getSnackbarContent();
-    console.log(navigation.formAction);
   }
 
   return (
     <Container
-    sx={{width: '50%', maxWidth: '800px !important'}}
+      className="settingsContainer"
     >
       <SettingsSnackbar
         isSnackBarOpen={isSnackBarOpen}

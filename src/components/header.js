@@ -14,12 +14,7 @@ function Header({name}) {
       <Link to={`/`} className="HeaderTitle">
         <Typography 
           variant="h1"
-          sx={{
-            fontSize:'40px', 
-            fontWeight:'bold', 
-            margin: '10px 0px',
-            color: '#c8c8c8'
-            }}
+          className='HeaderTitle'
         >
           ScanVoucher
         </Typography>
@@ -37,7 +32,7 @@ function Header({name}) {
               sx:{
                 backgroundColor: "#393D3F",
                 color: "white",
-                width: "25%",
+                minWidth: "25%",
               }
             }}
           >

@@ -1,4 +1,5 @@
 import { redirect } from "react-router-dom";
+import { getBearerToken } from "./Root";
 
 export async function action({ params }) {
   await updateVoucherValue(params.voucherId);
@@ -6,7 +7,7 @@ export async function action({ params }) {
 }
 
 async function updateVoucherValue(voucherId){
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -28,7 +29,6 @@ async function updateVoucherValue(voucherId){
       }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);

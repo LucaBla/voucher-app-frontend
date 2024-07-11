@@ -1,13 +1,10 @@
 import { redirect } from "react-router-dom";
 import axios from "axios";
 import { backendUrl } from "..";
+import { getBearerToken } from "./Root";
 
 export async function action({ request, params }) {
-  const bearerToken = localStorage.getItem('authToken');
-
-  if (bearerToken === undefined || bearerToken === null) {
-    return redirect(`/login`);
-  }
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -15,7 +12,6 @@ export async function action({ request, params }) {
   };
 
   let formData= Object.fromEntries(await request.formData());
-  console.log(formData);
 
   try {
     const response = await axios.post(

@@ -14,7 +14,7 @@ async function loginUser(email, password) {
     password: password,
   })
     .then(response => {
-      return response.data.token;
+      return response.data;
     })
     .catch(error => {
       throw new Error(`Login failed: ${error.response.statusText}`);
@@ -30,8 +30,12 @@ export async function action({request, params}){
   const formData = await request.formData();
   const object = Object.fromEntries(formData);
   try{
-    const token = await loginUser(object.email, object.password);
+    const loginObject = await loginUser(object.email, object.password);
+    const token = loginObject.token;
+    const refreshToken = loginObject.refresh_token;
+
     localStorage.setItem('authToken', token);
+    localStorage.setItem('refreshToken', refreshToken);
   }
   catch(error){
     return error;

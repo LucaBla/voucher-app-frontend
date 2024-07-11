@@ -6,14 +6,11 @@ import { PDFDownloadLink} from "@react-pdf/renderer";
 import VoucherPDF from "../components/voucherPDF";
 import "../styles/pages/Voucher.css"
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PlaceOutlined, StoreOutlined } from "@mui/icons-material";
+import { CalendarMonthOutlined, CheckOutlined, CloseOutlined, DownloadOutlined, EditOutlined, LocalOfferOutlined, MailOutline, PaymentOutlined, PhoneOutlined, PlaceOutlined, StoreOutlined } from "@mui/icons-material";
+import { getBearerToken } from "./Root";
 
 export async function loader({ params }) {
-  const bearerToken = localStorage.getItem('authToken');
-
-  // if (bearerToken === undefined || bearerToken === null) {
-  //   return redirect(`/login`);
-  // }
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -26,7 +23,6 @@ export async function loader({ params }) {
       { headers: headers }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -36,7 +32,7 @@ export async function loader({ params }) {
 
 function Voucher() {
   const voucher = useLoaderData();
-  const authToken = localStorage.getItem('authToken');
+  const authToken = getBearerToken();
 
   const expiryDate = new Date(voucher.expiry_date).toLocaleDateString();
 
@@ -44,7 +40,7 @@ function Voucher() {
     <Container id="voucher-page">
       <Typography 
         variant="h2"
-        sx={{fontSize: '30px', fontWeight: 'bold'}}
+        sx={{fontSize: '30px', fontWeight: 'bold', marginTop: '30px'}}
       >
         Your QR Voucher
       </Typography>
@@ -240,7 +236,7 @@ function Voucher() {
               alignItems="center"
               gap="20px"
             >
-              <CalendarMonthOutlined 
+              <PhoneOutlined 
                 sx={{
                   backgroundColor:"#8f969a",
                   padding: "8px 8px" ,
@@ -263,6 +259,7 @@ function Voucher() {
             borderRadius={"4px"}
             sx={{aspectRatio: "1 / 1"}}
             border={"10px solid #393D3F"}
+            className="qrWrapper"
           >
             <Box 
               border={"10px solid #393D3F"}
@@ -273,7 +270,10 @@ function Voucher() {
                 padding={"10px"}
                 borderRadius={"4px"}
               >
-                <QRCode value={`${frontendUrl}/vouchers/${voucher.id}`} id="QRCode"/>
+                <QRCode 
+                  value={`${frontendUrl}/vouchers/${voucher.id}`} 
+                  id="QRCode"  
+                />
               </Box>
             </Box>
           </Box>
@@ -288,6 +288,17 @@ function Voucher() {
                 value={voucher.value} 
                 unit={voucher.unit.name}
                 expiry_date={expiryDate}  
+                adress={
+                  voucher.business.street + 
+                  ' ' + 
+                  voucher.business.apt_suite_bldg +
+                  ', ' +
+                  voucher.business.zip_code + 
+                  ' ' +
+                  voucher.business.city
+                }
+                email = {voucher.business.email}
+                phone_number = {voucher.business.phone_number}
                 qrCodeString = {`${frontendUrl}/vouchers/${voucher.id}`}
               />
             } 

@@ -25,11 +25,9 @@ export default function VoucherForm({voucher, currentDate, units}){
     else{
       console.error("Invalid value");
     }
-    console.log(activeValue);
   };
 
   const handleSubmit = (event) => {
-    console.log(event.target[5].value);
     if(voucherStatus === "active"){
       if(event.target[1].value <= 0){
         setDialogOpen(true);
@@ -55,7 +53,7 @@ export default function VoucherForm({voucher, currentDate, units}){
 
   return(
     <Container
-      sx={{width: '50%', maxWidth: '800px !important'}}
+      className="voucherFormContainer"
     >
       <Dialog
         open={dialogOpen}

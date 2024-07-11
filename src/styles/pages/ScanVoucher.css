@@ -7,3 +7,9 @@
 .scanner-wrapper{
   width: 40%;
 }
+
+@media screen and (max-width:450px) {
+  .scanner-wrapper{
+    width: 100% !important;
+  }
+}

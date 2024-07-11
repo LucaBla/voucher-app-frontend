@@ -1,19 +1,16 @@
-import { Form, redirect, useLoaderData, useLocation } from "react-router-dom";
+import { Form, redirect, useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import VoucherForm from "../components/voucherForm";
 import { backendUrl } from "../index";
 import { useState } from "react";
 import "../styles/pages/EditVoucher.css"
 import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Stack, TextField, Typography } from "@mui/material";
-import { SendOutlined } from "@mui/icons-material";
+import { ArrowBack, ArrowBackOutlined, SendOutlined } from "@mui/icons-material";
 import SettingsSnackbar from "../components/SettingsSnackbar";
+import { getBearerToken } from "./Root";
 
 export async function loader({ params }) {
-  const bearerToken = localStorage.getItem('authToken');
-
-  if (bearerToken === undefined || bearerToken === null) {
-    return redirect(`/login`);
-  }
+  const bearerToken = getBearerToken();
 
   const headers = {
     'Authorization': `Bearer ${bearerToken}`,
@@ -28,7 +25,6 @@ export async function loader({ params }) {
       { headers: headers }
     );
 
-    console.log(response.data);
     arr.push(response.data);
   } catch (error) {
     console.error(error);
@@ -40,13 +36,11 @@ export async function loader({ params }) {
       { headers: headers }
     );
 
-    console.log(response.data);
     arr.push(response.data);
   } catch (error) {
     console.error(error);
   }
 
-  console.log(arr);
   return arr;
 }
 
@@ -56,10 +50,9 @@ export async function action({ request, params }){
 }
 
 async function updateVoucher(request, params){
-  const bearerToken = localStorage.getItem('authToken');
+  const bearerToken = getBearerToken();
 
   let formData= Object.fromEntries(await request.formData());
-  console.log(formData);
 
   if(formData.sum){
     formData.value = updateFormDataValueBasedOnSum(formData);
@@ -83,7 +76,6 @@ async function updateVoucher(request, params){
       }
     );
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -105,6 +97,7 @@ function updateFormDataValueBasedOnSum(formData){
 function EditVoucher() {
   const data = useLoaderData();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const voucher = data[0];
   const today = new Date().toISOString().substring(0,10);
@@ -137,8 +130,6 @@ function EditVoucher() {
     const id = separatedPath[2];
 
     const newPath = `/vouchers/${id}/send`;
-
-    console.log(newPath);
 
     return newPath;
   }
@@ -206,6 +197,14 @@ function EditVoucher() {
           currentDate={today} 
           units={data[1]}
         />
+        <Button
+          startIcon={<ArrowBackOutlined/>} 
+          variant="contained" 
+          sx={{backgroundColor:"#CACFD2"}}
+          onClick={()=>navigate(location.pathname.replace('/edit', ''))}
+        >
+          Back
+        </Button>
         <Button 
           endIcon={<SendOutlined/>}
           onClick={openDialog}

@@ -46,3 +46,13 @@
   border-radius: 20px 0px 0px 20px;
   object-fit: fill;
 }
+
+@media screen and (max-width:450px) {
+  .LoginWrapper{
+    display: block;
+  }
+
+  .LoginImage{
+    display: none !important;
+  }
+}

@@ -11,6 +11,11 @@ fieldset{
   font-size: 20px;
 }
 
+.voucherFormContainer{
+  width: 50% !important;
+  max-width: 800px !important;
+}
+
 .id-label{
   display: flex;
   gap: 5px;
@@ -94,4 +99,10 @@ fieldset{
 }
 .id-label{
   font-weight: bold ;
+}
+
+@media screen and (max-width:450px) {
+  .voucherFormContainer{
+    width: auto !important;
+  }
 }

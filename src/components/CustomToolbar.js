@@ -44,7 +44,6 @@ function CustomToolbar({rowSelectionModel}) {
       !isSnackBarOpen
     ){
       setIsSnackBarOpen(true);
-      console.log(navigation.formAction);
     }
   }, []);
 

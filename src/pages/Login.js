@@ -123,7 +123,7 @@ function Login() {
           </Button>
         </Stack>
         <div className='ImageWrapper'>
-          <img src='/images/placeholder.jpg' className='LoginImage'/>
+          <img src='/images/bg.jpg' className='LoginImage'/>
         </div>
       </Box>
     </Container>

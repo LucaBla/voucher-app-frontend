@@ -4,7 +4,7 @@ import { useAuth } from '../authContext';
 import '../styles/pages/Login.css'
 import { Form, redirect, useActionData, useLoaderData, useRouteError } from 'react-router-dom';
 import { backendUrl } from "../index";
-import { Box, Button, Container, Stack, TextField, Typography } from '@mui/material';
+import { Box, Button, Container, Skeleton, Stack, TextField, Typography } from '@mui/material';
 import { LoginOutlined } from '@mui/icons-material';
 import SettingsSnackbar from '../components/SettingsSnackbar';
 
@@ -50,6 +50,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     if(error){
@@ -123,7 +124,19 @@ function Login() {
           </Button>
         </Stack>
         <div className='ImageWrapper'>
-          <img src='/images/bg.jpg' className='LoginImage'/>
+          {!loaded &&(
+            <Skeleton
+              variant='rectangular'
+              width="100%"
+              height="100%"
+              sx={{ bgcolor: 'grey' }}
+            />
+          )}
+          <img 
+            src='/images/bg.jpg' 
+            className='LoginImage'
+            onLoad={() => setLoaded(true)}
+          />
         </div>
       </Box>
     </Container>
